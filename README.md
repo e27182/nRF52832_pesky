@@ -47,7 +47,7 @@ make flash_softdevice - flashes softdevice hex to board. Available only in s132\
 
 2. Unpack SDK to the folder, and configure GCC toolchain.
 3. Connect your board to JLink.
-4. Make and flash. To compile only tun *make*, to compile and flash run *make flash*.
+4. Make and flash. To compile only run *make*, to compile and flash run *make flash*.
 
    ```
    cd projects\peripheral\blinky\pesky\blank\armgcc
