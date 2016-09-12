@@ -7,10 +7,10 @@ Repository contains *blinky* example form official nRF5 SDK adapted for the boar
 
 Working on fetching data from MPU9250 with official Invensense SDK.
 
-##Prerequisites
+##What you will need
 
 1. nRF5 SDK - https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK (all code adapted for SDK 12.0.0)
-2. ARM GCC Toolchain - https://devzone.nordicsemi.com/tutorials/7/ (I do not use Eclipse yet, just plain GCC, so you could skip part about Eclipse configuration)
+2. ARM GCC Toolchain - https://devzone.nordicsemi.com/tutorials/7/ (I do not use Eclipse yet, just plain GCC, so you could skip part about Eclipse configuration. Also, please, read "How to use it" section before following the tutorial as you need to clone this repo to empty folder, before unpacking SDK there)
 3. JLink from SEGGER - I'm using EDU version and have no plans to make it to production
 4. MSYS2 - https://msys2.github.io/ (I use Windows as development environment)
 ..* .bash_profile - you should add JLink and GCC to you PATH, like below
@@ -31,7 +31,7 @@ cd nRF5_SDK_12.0.0_12f24da
 git clone https://github.com/e27182/nRF52832_pesky projects
 ```
 
-2. Unpack SDK to the folder
+2. Unpack SDK to the folder, and configure GCC toolchain
 3. Connect your board to JLink
 4. Make and flush
 
