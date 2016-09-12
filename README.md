@@ -45,9 +45,9 @@ make flash_softdevice - flashes softdevice hex to board. Available only in s132\
    git clone https://github.com/e27182/nRF52832_pesky projects
    ```
 
-2. Unpack SDK to the folder, and configure GCC toolchain
-3. Connect your board to JLink
-4. Make and flush. To compile only tun *make*, to compile and flash run *make flash*
+2. Unpack SDK to the folder, and configure GCC toolchain.
+3. Connect your board to JLink.
+4. Make and flash. To compile only tun *make*, to compile and flash run *make flash*.
 
    ```
    cd projects\peripheral\blinky\pesky\blank\armgcc
