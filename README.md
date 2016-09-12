@@ -28,7 +28,7 @@ PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program
   * flash.jlink - commands for JLink used to flash app hex
   * nrf52832_xxaa.hex.log - logfile of the flash process
 
-**make flash_softdevice** - flashes softdevice hex to board. Available only in s132\armgcc\Makefile. Also, created 2 files in _build folder:
+**make flash_softdevice** - flashes softdevice hex to board. Available only in s132\armgcc\Makefile. Also, creates 2 files in _build folder:
 
   * flash_softdevice.jlink - command for JLink used to flash softdevice hex
   * s132_nrf52_3.0.0_softdevice.hex.log - logfile of the flash process
