@@ -27,7 +27,7 @@ make flash - compiles and flashes hex to board. Also, creates 2 files in _build 
   flash.jlink - commands for JLink used to flash app hex
   nrf52832_xxaa.hex.log - logfile of the flash process
 
-make flash_softdevice - flashes softdevice hex to board. Also, created 2 files in _build folder:
+make flash_softdevice - flashes softdevice hex to board. Available only in s132\armgcc\Makefile. Also, created 2 files in _build folder:
   flash_softdevice.jlink - command for JLink used to flash softdevice hex
   s132_nrf52_3.0.0_softdevice.hex.log - logfile of the flash process
 
@@ -59,5 +59,5 @@ If you wish to use example with SoftDevice s132, you should ensure that you use 
    ```
    cd projects\peripheral\blinky\pesky\s132\armgcc
    make flash_softdevice
-   make
+   make flash
    ```
