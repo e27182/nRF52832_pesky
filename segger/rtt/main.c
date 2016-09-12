@@ -7,15 +7,10 @@ int length = 4;
 float val = 0.214;
 char string_on_stack[] = "Testing string on stack\r\n";
 
-uint32_t timestamp_func(void)
-{
-    return 0;
-}
-
 int main(void)
 {
     uint32_t err_code;
-    err_code = NRF_LOG_INIT(timestamp_func);
+    err_code = NRF_LOG_INIT(NULL);
 
     APP_ERROR_CHECK(err_code);
 
