@@ -21,7 +21,9 @@ PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program
 
 ##How to use it
 
-*please review Makefile before executing any command and make sure that you understand what you are doing*
+*Please review Makefile before executing any command and make sure that you understand what you are doing.*
+
+*All commands below executed in mingw64 shell from msys2.*
 
 1. Clone repository to your *empty* nRF5 SDK folder:
 
