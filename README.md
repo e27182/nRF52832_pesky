@@ -66,7 +66,8 @@ If you wish to use example with SoftDevice s132, you should ensure that you use 
 
 ## Updates
 
+```
 12.09.2016
-
   Initial commit (blinky)
   Added SEGGER RTT example
+```
