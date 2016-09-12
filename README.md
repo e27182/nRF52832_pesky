@@ -35,17 +35,17 @@ git clone https://github.com/e27182/nRF52832_pesky projects
 
 2. Unpack SDK to the folder, and configure GCC toolchain
 3. Connect your board to JLink
-4. Make and flush
+4. Make and flush. To compile only tun *make*, to compile and flash run *make flash*
 
 ```
 cd projects\peripheral\blinky\pesky\blank\armgcc
-make
+make flash
 ```
 
 If you wish to use example with SoftDevice s132, you should ensure that you use correct version of soft device. You can flush it with next command:
 
 ```
 cd projects\peripheral\blinky\pesky\s132\armgcc
-make flush_softdevice
+make flash_softdevice
 make
 ```
