@@ -19,6 +19,18 @@ Working on fetching data from MPU9250 with official Invensense SDK.
 PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
 ```
 
+##Features
+
+make - compiles code and produces hex and bin files
+
+make flash - compiles and flashes hex to board. Also, creates 2 files in _build folder:
+  flash.jlink - commands for JLink used to flash app hex
+  nrf52832_xxaa.hex.log - logfile of the flash process
+
+make flash_softdevice - flashes softdevice hex to board. Also, created 2 files in _build folder:
+  flash_softdevice.jlink - command for JLink used to flash softdevice hex
+  s132_nrf52_3.0.0_softdevice.hex.log - logfile of the flash process
+
 ##How to use it
 
 *Please review Makefile before executing any command and make sure that you understand what you are doing.*
@@ -27,25 +39,25 @@ PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program
 
 1. Clone repository to your *empty* nRF5 SDK folder:
 
-```
-mkdir nRF5_SDK_12.0.0_12f24da
-cd nRF5_SDK_12.0.0_12f24da
-git clone https://github.com/e27182/nRF52832_pesky projects
-```
+   ```
+   mkdir nRF5_SDK_12.0.0_12f24da
+   cd nRF5_SDK_12.0.0_12f24da
+   git clone https://github.com/e27182/nRF52832_pesky projects
+   ```
 
 2. Unpack SDK to the folder, and configure GCC toolchain
 3. Connect your board to JLink
 4. Make and flush. To compile only tun *make*, to compile and flash run *make flash*
 
-```
-cd projects\peripheral\blinky\pesky\blank\armgcc
-make flash
-```
+   ```
+   cd projects\peripheral\blinky\pesky\blank\armgcc
+   make flash
+   ```
 
 If you wish to use example with SoftDevice s132, you should ensure that you use correct version of soft device. You can flush it with next command:
 
-```
-cd projects\peripheral\blinky\pesky\s132\armgcc
-make flash_softdevice
-make
-```
+   ```
+   cd projects\peripheral\blinky\pesky\s132\armgcc
+   make flash_softdevice
+   make
+   ```
