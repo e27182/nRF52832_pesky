@@ -1,6 +1,12 @@
 # nRF52832_pesky
 Programming nRF52832 + MPU9250 + BMP280 dev board from https://www.tindie.com/products/onehorse/nrf52832-development-board/ with nRF52 SDK, GCC and JLink.
 
+Repository contains *blinky* example form official nRF5 SDK adapted for the board.
+
+##TODO
+
+Working on fetching data from MPU9250 with official Invensense SDK.
+
 ##Prerequisites
 
 1. nRF5 SDK - https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK (all code adapted for SDK 12.0.0)
@@ -30,14 +36,14 @@ git clone https://github.com/e27182/nRF52832_pesky projects
 4. Make and flush
 
 ```
-cd projects\peripheral\blinky\tindie\blank\armgcc
+cd projects\peripheral\blinky\pesky\blank\armgcc
 make
 ```
 
 If you wish to use example with SoftDevice s132, you should ensure that you use correct version of soft device. You can flush it with next command:
 
 ```
-cd projects\peripheral\blinky\tindie\s132\armgcc
+cd projects\peripheral\blinky\pesky\s132\armgcc
 make flush_softdevice
 make
 ```
