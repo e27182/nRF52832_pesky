@@ -204,6 +204,8 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	nrfjprog --program $< -f nrf52 --chiperase
-	nrfjprog --reset -f nrf52
-
+	@echo Log: $<.log
+	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
+	@echo 
+	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
+	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink

@@ -216,7 +216,7 @@ flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Log: $<.log
 	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
 	@echo 
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
+	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nr\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
 	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink
 
 # Flash softdevice
@@ -225,5 +225,5 @@ flash_softdevice:
 	@echo Log: $(OUTPUT_DIRECTORY)/s132_nrf52_3.0.0_softdevice.hex.log
 	@echo Commander script: $(OUTPUT_DIRECTORY)/flash_softdevice.jlink
 	@echo
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_3.0.0_softdevice.hex\ng\nqc" > $(OUTPUT_DIRECTORY)/flash_softdevice.jlink
+	@echo -e "log $(OUTPUT_DIRECTORY)/s132_nrf52_3.0.0_softdevice.hex.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_3.0.0_softdevice.hex\nr\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash_softdevice.jlink
 	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash_softdevice.jlink
