@@ -54,7 +54,7 @@ make flash_softdevice - flashes softdevice hex to board. Available only in s132\
    make flash
    ```
 
-If you wish to use example with SoftDevice s132, you should ensure that you use correct version of soft device. You can flush it with next command:
+If you wish to use example with SoftDevice s132, you should ensure that you use correct version of soft device. You can flash it with next command:
 
    ```
    cd projects\peripheral\blinky\pesky\s132\armgcc
