@@ -64,6 +64,10 @@ If you wish to use example with SoftDevice s132, you should ensure that you use 
    make flash
    ```
 
+Finally you should see something like that:
+
+![image](https://cloud.githubusercontent.com/assets/14309815/18452651/7c87abb4-7944-11e6-9eff-ac716f8a1380.gif)
+
 ## Updates
 
 ```
