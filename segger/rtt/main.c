@@ -1,7 +1,5 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log.h"
-// #include <stdbool.h>
-// #include <stdint.h>
 #include "nrf_delay.h"
 
 char p_data[] = "data";
