@@ -1,4 +1,4 @@
-PROJECT_NAME     := twi_pesky_s132
+PROJECT_NAME     := twi_pesky_blank
 TARGETS          := nrf52832_xxaa
 OUTPUT_DIRECTORY := _build
 
@@ -34,7 +34,7 @@ SRC_FILES += \
 
 # Include folders common to all targets
 INC_FOLDERS += \
-  $(PROJ_DIR)/config/twi_pesky_s132 \
+  $(PROJ_DIR)/config/twi_pesky_blank \
   $(PROJ_DIR)/config \
   $(SDK_ROOT)/components \
   $(SDK_ROOT)/components/ble/ble_services/ble_hrs_c \
