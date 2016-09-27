@@ -69,6 +69,7 @@ Finally you should see something like that:
 ```
 27.09.2016
   Added interrupt example with code to enable pins 9, 10 as ordinary GPIO.
+  Added MPU9250 example
 
 13.09.2016
   Added TWI example
@@ -81,4 +82,4 @@ Finally you should see something like that:
 
 ##TODO
 
-Working on fetching data from MPU9250 with official Invensense SDK.
+Working on adaptation of example from Invensense SDK (Motion Driver).
