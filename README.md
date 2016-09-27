@@ -71,6 +71,9 @@ Finally you should see something like that:
 ## Updates
 
 ```
+27.09.2016
+  Added interrupt example
+
 13.09.2016
   Added TWI example
   Modified RTT example with timestamping using app_timer
