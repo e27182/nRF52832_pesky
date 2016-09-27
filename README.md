@@ -71,6 +71,10 @@ Finally you should see something like that:
 ## Updates
 
 ```
+13.09.2016
+  Added TWI example
+  Modified RTT example with timestamping using app_timer
+
 12.09.2016
   Initial commit (blinky)
   Added SEGGER RTT example
