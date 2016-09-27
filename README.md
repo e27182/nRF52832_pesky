@@ -1,11 +1,7 @@
 # nRF52832_pesky
 Programming nRF52832 + MPU9250 + BMP280 dev board from https://www.tindie.com/products/onehorse/nrf52832-development-board/ with nRF52 SDK, GCC and JLink.
 
-Repository contains *blinky* example form official nRF5 SDK adapted for the board.
-
-##TODO
-
-Working on fetching data from MPU9250 with official Invensense SDK.
+Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result. Below you can find setup process based on simplest *blinky* example.
 
 ##What you will need
 
@@ -71,6 +67,9 @@ Finally you should see something like that:
 ## Updates
 
 ```
+27.09.2016
+  Added interrupt example with code to enable pins 9, 10 as ordinary GPIO.
+
 13.09.2016
   Added TWI example
   Modified RTT example with timestamping using app_timer
@@ -79,3 +78,7 @@ Finally you should see something like that:
   Initial commit (blinky)
   Added SEGGER RTT example
 ```
+
+##TODO
+
+Working on fetching data from MPU9250 with official Invensense SDK.
