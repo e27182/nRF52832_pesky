@@ -68,7 +68,7 @@ Finally you should see something like that:
 
 ```
 27.09.2016
-  Added interrupt example
+  Added interrupt example with code to enable pins 9, 10 as ordinary GPIO.
 
 13.09.2016
   Added TWI example
