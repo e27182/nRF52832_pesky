@@ -1,6 +1,6 @@
 # MPU9250
 
-This example shows basic usage of MPU9250 with Invensense SDK (Motion Driver 6.12). It inits MPU9250, inits DMP, inits DMP data-ready interrupt am=nd repetedly reads 6x low-power quaternion.
+This example shows basic usage of MPU9250 with Invensense SDK (Motion Driver 6.12). It inits MPU9250, inits DMP, inits DMP data-ready interrupt and repetedly reads 6x low-power quaternion.
 
 Compile, flash, open RTT Viewer and you should see repeating logs:
 
