@@ -4,6 +4,8 @@
 #include <math.h>
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
+#include "nrf_drv_clock.h"
+#include "nrf_drv_rtc.h"
 #include "nrf_drv_gpiote.h"
 #include "app_twi.h"
 #include "app_error.h"
@@ -13,13 +15,6 @@
 #include "data_builder.h"
 #include "results_holder.h"
 #include "invensense.h"
-
-#include "app_timer.h"
-
-#define APP_TIMER_PRESCALER             0                                           /**< Value of the RTC1 PRESCALER register. */
-#define APP_TIMER_OP_QUEUE_SIZE         4                                           /**< Size of timer operation queues. */
-#define APP_TIMER_MS(TICKS, PRESCALER)\
-            ((uint32_t)ROUNDED_DIV((TICKS) * ((PRESCALER) + 1) * 1000, (uint64_t)APP_TIMER_CLOCK_FREQ))
 
 #define QUAT_W 0
 #define QUAT_X 1
@@ -45,6 +40,8 @@
 #define MAX_PENDING_TRANSACTIONS 5
 
 app_twi_t m_app_twi = APP_TWI_INSTANCE(0);
+static nrf_drv_rtc_t const m_rtc = NRF_DRV_RTC_INSTANCE(0);
+
 volatile bool mpu_data_ready = false;
 
 const signed char _orientation[9] = {
@@ -241,20 +238,31 @@ static inline void run_self_test(void)
     }
 }
 
-static void timer_handler(void * p_context)
+// RTC tick events generation.
+static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 {
+}
+static void rtc_config(void)
+{
+    uint32_t err_code;
+
+    // Initialize RTC instance with default configuration.
+    nrf_drv_rtc_config_t config = NRF_DRV_RTC_DEFAULT_CONFIG;
+    err_code = nrf_drv_rtc_init(&m_rtc, &config, rtc_handler);
+    APP_ERROR_CHECK(err_code);
+
+    // Enable tick event and interrupt.
+    //nrf_drv_rtc_tick_enable(&m_rtc, true);
+
+    // Power on RTC instance.
+    nrf_drv_rtc_enable(&m_rtc);
 }
 
 int main(void)
 {
     // Start internal LFCLK XTAL oscillator - it is needed for "read" ticks generation (by RTC).
     lfclk_config();
-
-    // Start app time that will init and start RTC1 internally.
-    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_OP_QUEUE_SIZE, false);
-    APP_TIMER_DEF(m_timer_id);
-    APP_ERROR_CHECK(app_timer_create(&m_timer_id, APP_TIMER_MODE_REPEATED, timer_handler));
-    APP_ERROR_CHECK(app_timer_start(m_timer_id, APP_TIMER_TICKS(10000, APP_TIMER_PRESCALER), NULL));
+    rtc_config();
     
     APP_ERROR_CHECK(NRF_LOG_INIT(timestamp_func));
 

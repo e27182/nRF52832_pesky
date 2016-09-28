@@ -45,6 +45,8 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/adc \
   $(SDK_ROOT)/components/ble/ble_services/ble_bas_c \
   $(SDK_ROOT)/components/ble/ble_services/ble_hrs_c \
+  $(PROJ_DIR)/../../include \
+  $(PROJ_DIR)/../../../examples/bsp \
   $(SDK_ROOT)/components/ble/ble_dtm \
   $(SDK_ROOT)/components/libraries/crc16 \
   $(SDK_ROOT)/components/libraries/mailbox \
@@ -119,6 +121,7 @@ LIB_FILES += \
 
 # C flags common to all targets
 CFLAGS += -DNRF52
+CFLAGS += -DBOARD_CUSTOM
 CFLAGS += -DNRF52832
 CFLAGS += -DNRF52_PAN_64
 CFLAGS += -DNRF52_PAN_12
@@ -135,6 +138,7 @@ CFLAGS += -DS132
 CFLAGS += -DCONFIG_GPIO_AS_PINRESET
 CFLAGS += -DBLE_STACK_SUPPORT_REQD
 CFLAGS += -DNRF_SD_BLE_API_VERSION=3
+CFLAGS += -DBSP_DEFINES_ONLY
 CFLAGS += -DSWI_DISABLE0
 CFLAGS += -DNRF52_PAN_20
 CFLAGS += -DSOFTDEVICE_PRESENT
@@ -156,6 +160,7 @@ CXXFLAGS += \
 # Assembler flags common to all targets
 ASMFLAGS += -x assembler-with-cpp
 ASMFLAGS += -DNRF52
+ASMFLAGS += -DBOARD_CUSTOM
 ASMFLAGS += -DNRF52832
 ASMFLAGS += -DNRF52_PAN_64
 ASMFLAGS += -DNRF52_PAN_12
@@ -172,7 +177,7 @@ ASMFLAGS += -DS132
 ASMFLAGS += -DCONFIG_GPIO_AS_PINRESET
 ASMFLAGS += -DBLE_STACK_SUPPORT_REQD
 ASMFLAGS += -DNRF_SD_BLE_API_VERSION=3
-#ASMFLAGS += -DBSP_DEFINES_ONLY
+ASMFLAGS += -DBSP_DEFINES_ONLY
 ASMFLAGS += -DSWI_DISABLE0
 ASMFLAGS += -DNRF52_PAN_20
 ASMFLAGS += -DSOFTDEVICE_PRESENT

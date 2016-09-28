@@ -24,14 +24,26 @@
 #include "nrf.h"
 #include "nrf_drv_gpiote.h"
 #include "app_error.h"
+#include "boards.h"
 
-#define PIN_IN 9 // NOTE: by default used as NFC1, so requires CONFIG_NFCT_PINS_AS_GPIOS to be set
-#define PIN_OUT 22
+#ifdef BSP_BUTTON_1
+    #define PIN_IN BSP_BUTTON_1 // Pin 9 used as NFC0 by default and protected from being used as GPIO. Call remove_nfc_protection() function below to use it as GPIO.
+#endif
+#ifndef PIN_IN
+    #error "Please indicate input pin"
+#endif
+
+#ifdef BSP_LED_0
+    #define PIN_OUT BSP_LED_0
+#endif
+#ifndef PIN_OUT
+    #error "Please indicate output pin"
+#endif
 
 /**
  * @brief Configures Pin 9 and Pin 10 to be used as GPIO, not as NFC.
  */
-static void init()
+static void remove_nfc_protection()
 {
     if ((NRF_UICR->NFCPINS & UICR_NFCPINS_PROTECT_Msk) == (UICR_NFCPINS_PROTECT_NFC << UICR_NFCPINS_PROTECT_Pos)){
         NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos;
@@ -53,7 +65,7 @@ void in_pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
  * and configures GPIOTE to give an interrupt on pin change.
  */
 static void gpio_init(void)
-{   
+{
     ret_code_t err_code;
 
     err_code = nrf_drv_gpiote_init();
@@ -78,7 +90,7 @@ static void gpio_init(void)
  */
 int main(void)
 {
-    init();
+    remove_nfc_protection();
     gpio_init();
 
     while (true)

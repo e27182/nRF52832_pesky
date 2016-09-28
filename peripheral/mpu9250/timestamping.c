@@ -18,7 +18,7 @@ uint32_t timestamp_ms = 0;
 uint32_t timestamp_func(void) {
     uint32_t ticks_diff = 0;
     uint32_t ms_diff = 0;
-    uint32_t ticks_to = app_timer_cnt_get();
+    uint32_t ticks_to = NRF_RTC0->COUNTER; //app_timer_cnt_get();
 
     APP_ERROR_CHECK(app_timer_cnt_diff_compute(ticks_to, ticks_from, &ticks_diff));
     ticks_from = ticks_to;

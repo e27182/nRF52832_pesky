@@ -1,48 +1,52 @@
+/* Copyright (c) 2014 Nordic Semiconductor. All Rights Reserved.
+ *
+ * The information contained herein is property of Nordic Semiconductor ASA.
+ * Terms and conditions of usage are described in detail in NORDIC
+ * SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
+ *
+ * Licensees are granted free, non-transferable use of the information. NO
+ * WARRANTY of ANY KIND is provided. This heading must NOT be removed from
+ * the file.
+ *
+ */
+
+/** @file
+ *
+ * @defgroup blinky_example_main main.c
+ * @{
+ * @ingroup blinky_example
+ * @brief Blinky Example Application main file.
+ *
+ * This file contains the source code for a sample application to blink LEDs.
+ *
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
-#include "nrf_gpio.h"
 #include "nrf_delay.h"
-
-#define LEDS_NUMBER    3
-
-#define LED_0          22
-#define LED_1          23
-#define LED_2          24
-
-#define LEDS_LIST { LED_0, LED_1, LED_2 }
-
-#define BSP_LED_0      LED_0
-#define BSP_LED_1      LED_1
-#define BSP_LED_2      LED_2
-
-#define BSP_LED_0_MASK (1<<BSP_LED_0)
-#define BSP_LED_1_MASK (1<<BSP_LED_1)
-#define BSP_LED_2_MASK (1<<BSP_LED_2)
-
-#define LEDS_MASK      (BSP_LED_0_MASK | BSP_LED_1_MASK | BSP_LED_2_MASK)
-
-#define LEDS_INVERT(leds_mask) do { uint32_t gpio_state = NRF_GPIO->OUT;      \
-                              NRF_GPIO->OUTSET = ((leds_mask) & ~gpio_state); \
-                              NRF_GPIO->OUTCLR = ((leds_mask) & gpio_state); } while (0)
-
-#define LEDS_CONFIGURE(leds_mask) do { uint32_t pin;                  \
-                                  for (pin = 0; pin < 32; pin++) \
-                                      if ( (leds_mask) & (1 << pin) )   \
-                                          nrf_gpio_cfg_output(pin); } while (0)
-
+#include "bsp.h"
 
 static const uint8_t leds_list[LEDS_NUMBER] = LEDS_LIST;
 
+/**
+ * @brief Function for application main entry.
+ */
 int main(void)
 {
+    /* Configure LED-pins as outputs. */
     LEDS_CONFIGURE(LEDS_MASK);
 
+    /* Toggle LEDs. */
     while (true)
     {
         for (int i = 0; i < LEDS_NUMBER; i++)
         {
             LEDS_INVERT(1 << leds_list[i]);
-            nrf_delay_ms(1000);
+            nrf_delay_ms(500);
         }
     }
 }
+
+/**
+ *@}
+ **/

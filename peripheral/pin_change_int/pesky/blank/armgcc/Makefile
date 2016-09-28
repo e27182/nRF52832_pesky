@@ -29,6 +29,8 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/common \
   $(PROJ_DIR) \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
+  $(PROJ_DIR)/../../include \
+  $(PROJ_DIR)/../../../examples/bsp \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \
   ../config \
   $(SDK_ROOT)/components/device \
@@ -56,8 +58,10 @@ CFLAGS += -DNRF52_PAN_64
 CFLAGS += -DNRF52_PAN_55
 CFLAGS += -DNRF52_PAN_62
 CFLAGS += -DNRF52_PAN_63
+CFLAGS += -DBOARD_CUSTOM
 CFLAGS += -DNRF52
 CFLAGS += -DNRF52832
+CFLAGS += -DBSP_DEFINES_ONLY
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS +=  -Wall -Werror -O3 -g3
@@ -88,8 +92,10 @@ ASMFLAGS += -DNRF52_PAN_64
 ASMFLAGS += -DNRF52_PAN_55
 ASMFLAGS += -DNRF52_PAN_62
 ASMFLAGS += -DNRF52_PAN_63
+ASMFLAGS += -DBOARD_CUSTOM
 ASMFLAGS += -DNRF52
 ASMFLAGS += -DNRF52832
+ASMFLAGS += -DBSP_DEFINES_ONLY
 
 # Linker flags
 LDFLAGS += -mthumb -mabi=aapcs -L $(TEMPLATE_PATH) -T$(LINKER_SCRIPT)
