@@ -23,8 +23,8 @@ extern "C" {
 #define BSP_LED_2_MASK (1<<BSP_LED_2)
 
 #define LEDS_MASK      (BSP_LED_0_MASK | BSP_LED_1_MASK | BSP_LED_2_MASK)
-/* all LEDs are lit when GPIO is low */
-#define LEDS_INV_MASK  0
+/* determines which LEDs are lit when GPIO is low */
+#define LEDS_INV_MASK  LEDS_MASK
 
 #define BUTTONS_NUMBER 2
 
@@ -82,7 +82,6 @@ extern "C" {
                                  .rc_ctiv       = 0,                                \
                                  .rc_temp_ctiv  = 0,                                \
                                  .xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
-
 
 #ifdef __cplusplus
 }
