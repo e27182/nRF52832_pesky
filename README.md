@@ -90,8 +90,8 @@ Finally you should see something like that:
 
 ##TODO
 
-Polish adapted version of Motion Driver 6.12 example
-Add BLE stack (SoftDevice 132) to all examples
-Adapt some simple HID device example
-Create BLE HID joystick example with data from mpu9250
-Add altimeter data
+1. Polish adapted version of Motion Driver 6.12 example
+2. Add BLE stack (SoftDevice 132) to all examples
+3. Adapt some simple HID device example
+4. Create BLE HID joystick example with data from mpu9250
+5. Add altimeter data
