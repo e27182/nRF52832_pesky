@@ -3,6 +3,15 @@ Programming nRF52832 + MPU9250 + BMP280 dev board from https://www.tindie.com/pr
 
 Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result. Below you can find setup process based on simplest *blinky* example.
 
+##List of adapted projects
+- [Blinky (detailed description below)](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/blinky)
+- [Invensense Motion Driver 6.12 Example](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/md612)
+- [MPU9250](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/mpu9250)
+- [Interrupts](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/pin_change_int)
+- [TWI](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/twi_master_using_app_twi)
+- [UART](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/uart)
+- [Segger RTTT](https://github.com/e27182/nRF52832_pesky/tree/master/segger/rtt)
+
 ##What you will need
 
 1. nRF5 SDK - https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK (all code adapted for SDK 12.0.0)
