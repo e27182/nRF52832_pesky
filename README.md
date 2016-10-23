@@ -67,6 +67,14 @@ Finally you should see something like that:
 ## Updates
 
 ```
+01.10.2016
+  Added UART example
+  Added MotionDriver 6.12 adapted example (preliminary version, but working)
+    Known issues:
+      - could not use NRF_LOG via UART and at the same time use that UART directly
+      - need to fix orientation
+      - need to extract common parts from this example and mpu9250 example
+
 27.09.2016
   Added interrupt example with code to enable pins 9, 10 as ordinary GPIO.
   Added MPU9250 example
@@ -82,4 +90,8 @@ Finally you should see something like that:
 
 ##TODO
 
-Working on adaptation of example from Invensense SDK (Motion Driver).
+1. Polish adapted version of Motion Driver 6.12 example
+2. Add BLE stack (SoftDevice 132) to all examples
+3. Adapt some simple HID device example
+4. Create BLE HID joystick example with data from mpu9250
+5. Add altimeter data
