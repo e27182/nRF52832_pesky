@@ -12,7 +12,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/toolchain/gcc/gcc_startup_nrf52.S \
   $(SDK_ROOT)/components/toolchain/system_nrf52.c \
   $(PROJ_DIR)/main.c \
-  $(PROJ_DIR)/timestamping.c \
+  $(PROJ_DIR)/../../common/timestamping.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
   $(SDK_ROOT)/components/libraries/fifo/app_fifo.c \
@@ -31,18 +31,18 @@ SRC_FILES += \
   $(SDK_ROOT)/components/drivers_nrf/gpiote/nrf_drv_gpiote.c \
   $(SDK_ROOT)/components/libraries/log/src/nrf_log_backend_serial.c \
   $(SDK_ROOT)/components/libraries/log/src/nrf_log_frontend.c \
-  $(PROJ_DIR)/core/driver/nRF5/log_nRF5.c \
-  $(PROJ_DIR)/core/driver/eMPL/inv_mpu.c \
-  $(PROJ_DIR)/core/driver/eMPL/inv_mpu_dmp_motion_driver.c \
-  $(PROJ_DIR)/core/mllite/mpl.c \
-  $(PROJ_DIR)/core/mllite/data_builder.c \
-  $(PROJ_DIR)/core/mllite/storage_manager.c \
-  $(PROJ_DIR)/core/mllite/start_manager.c \
-  $(PROJ_DIR)/core/mllite/results_holder.c \
-  $(PROJ_DIR)/core/mllite/message_layer.c \
-  $(PROJ_DIR)/core/mllite/ml_math_func.c \
-  $(PROJ_DIR)/core/mllite/hal_outputs.c \
-  $(PROJ_DIR)/core/eMPL-hal/eMPL_outputs.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/nRF5/log_nRF5.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu_dmp_motion_driver.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/mpl.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/data_builder.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/storage_manager.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/start_manager.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/results_holder.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/message_layer.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/ml_math_func.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/hal_outputs.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/eMPL-hal/eMPL_outputs.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -55,15 +55,15 @@ INC_FOLDERS += \
   ../config \
   $(SDK_ROOT)/components/drivers_nrf/common \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
+  $(SDK_ROOT)/examples/bsp \
   $(PROJ_DIR) \
-  $(PROJ_DIR)/../../include \
-  $(PROJ_DIR)/../../../examples/bsp \
-  $(PROJ_DIR)/core/driver/include \
-  $(PROJ_DIR)/core/driver/nRF5 \
-  $(PROJ_DIR)/core/driver/eMPL \
-  $(PROJ_DIR)/core/eMPL-hal \
-  $(PROJ_DIR)/core/mpl \
-  $(PROJ_DIR)/core/mllite \
+  $(PROJ_DIR)/../../common \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/include \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/nRF5 \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/eMPL-hal \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mpl \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite \
   $(SDK_ROOT)/components/libraries/fifo \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \
   $(SDK_ROOT)/components/toolchain \
@@ -86,7 +86,7 @@ INC_FOLDERS += \
 
 # Libraries common to all targets
 LIB_FILES += \
-  $(PROJ_DIR)/core/mpl/liblibmplmpu.a \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mpl/liblibmplmpu.a \
 
 # C flags common to all targets
 CFLAGS += -DNRF52_PAN_12

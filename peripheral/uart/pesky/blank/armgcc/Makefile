@@ -33,8 +33,8 @@ INC_FOLDERS += \
   ../config \
   $(SDK_ROOT)/components/drivers_nrf/common \
   $(PROJ_DIR) \
-  $(PROJ_DIR)/../../include \
-  $(PROJ_DIR)/../../../examples/bsp \
+  $(PROJ_DIR)/../../common \
+  $(SDK_ROOT)/examples/bsp \
   $(SDK_ROOT)/components/libraries/fifo \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \
   $(SDK_ROOT)/components/toolchain \

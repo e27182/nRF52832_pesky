@@ -41,8 +41,8 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components \
   ../config \
   $(PROJ_DIR) \
-  $(PROJ_DIR)/../../include \
-  $(PROJ_DIR)/../../../examples/bsp \
+  $(PROJ_DIR)/../../common \
+  $(SDK_ROOT)/examples/bsp \
   $(SDK_ROOT)/components/drivers_nrf/delay \
   $(SDK_ROOT)/components/toolchain/cmsis/include \
   $(SDK_ROOT)/components/libraries/util \

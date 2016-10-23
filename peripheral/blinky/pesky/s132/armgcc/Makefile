@@ -45,7 +45,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/adc \
   $(SDK_ROOT)/components/ble/ble_services/ble_bas_c \
   $(SDK_ROOT)/components/ble/ble_services/ble_hrs_c \
-  $(PROJ_DIR)/../../include \
+  $(PROJ_DIR)/../../common \
   $(PROJ_DIR)/../../../examples/bsp \
   $(SDK_ROOT)/components/ble/ble_dtm \
   $(SDK_ROOT)/components/libraries/crc16 \

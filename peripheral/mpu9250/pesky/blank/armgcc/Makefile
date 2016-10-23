@@ -11,11 +11,11 @@ $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
 SRC_FILES += \
   $(SDK_ROOT)/components/toolchain/gcc/gcc_startup_nrf52.S \
   $(SDK_ROOT)/components/toolchain/system_nrf52.c \
-  $(PROJ_DIR)/core/driver/eMPL/inv_mpu.c \
-  $(PROJ_DIR)/core/driver/eMPL/inv_mpu_dmp_motion_driver.c \
-  $(PROJ_DIR)/core/mllite/ml_math_func.c \
-  $(PROJ_DIR)/core/mllite/mpl.c \
-  $(PROJ_DIR)/timestamping.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu_dmp_motion_driver.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/ml_math_func.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/mpl.c \
+  $(PROJ_DIR)/../../common/timestamping.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
@@ -93,9 +93,10 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/i2s \
   $(SDK_ROOT)/components/ble/ble_services/ble_ans_c \
   $(PROJ_DIR) \
-  $(PROJ_DIR)/core/mllite \
-  $(PROJ_DIR)/core/driver/eMPL \
-  $(PROJ_DIR)/core/driver/include \
+  $(PROJ_DIR)/../../common \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/include \
   $(SDK_ROOT)/components/libraries/fifo \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
   $(SDK_ROOT)/components/drivers_nrf/saadc \
@@ -157,6 +158,7 @@ CFLAGS += -DMPU9250
 CFLAGS += -DEMPL
 CFLAGS += -DUSE_DMP
 CFLAGS += -DDEBUG
+CFLAGS += -DMPU_LOG_RTTT
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS +=  -Wall -Werror -O3 -g3
@@ -194,6 +196,7 @@ ASMFLAGS += -DMPU9250
 ASMFLAGS += -DEMPL
 ASMFLAGS += -DUSE_DMP
 ASMFLAGS += -DDEBUG
+ASMFLAGS += -DMPU_LOG_RTTT
 
 # Linker flags
 LDFLAGS += -mthumb -mabi=aapcs -L $(TEMPLATE_PATH) -T$(LINKER_SCRIPT)
@@ -203,8 +206,6 @@ LDFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LDFLAGS += -Wl,--gc-sections
 # use newlib in nano version
 LDFLAGS += --specs=nano.specs -lc -lnosys
-#LDFLAGS += -llibmplmpu
-#LDFLAGS += -lmpllib
 
 
 

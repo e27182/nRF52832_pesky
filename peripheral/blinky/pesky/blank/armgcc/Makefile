@@ -81,7 +81,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/libraries/fifo \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
   $(SDK_ROOT)/components/drivers_nrf/saadc \
-  $(PROJ_DIR)/../../include \
+  $(PROJ_DIR)/../../common \
   $(PROJ_DIR)/../../../examples/bsp \
   $(SDK_ROOT)/components/libraries/uart \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \

@@ -29,8 +29,8 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/common \
   $(PROJ_DIR) \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
-  $(PROJ_DIR)/../../include \
-  $(PROJ_DIR)/../../../examples/bsp \
+  $(PROJ_DIR)/../../common \
+  $(SDK_ROOT)/examples/bsp \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \
   ../config \
   $(SDK_ROOT)/components/device \

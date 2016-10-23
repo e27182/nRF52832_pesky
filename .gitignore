@@ -32,5 +32,8 @@
 *.dSYM/
 *.su
 
+# Python
+*.pyc
+
 # Build folders
 _build/
