@@ -1,10 +1,10 @@
 # UART
 
-This example shows basic usage of UART. And it is same as nRF52 SDK example, only Makefile were modified to used appropriate BSP include, board name, flash target.
+This example shows basic usage of UART it is the same as nRF52 SDK example, only Makefile were modified to use appropriate BSP include, board name and flash target.
 
-For exact pins used please look at **projects/include/custom_board.h**.
+For exact pins used please look at BSP: **custom_board.h**.
 
-Also, don't forget to you should switch pins when connecting to COM port: RX should go to TX, TX to RX, CTS -> RTS and RTS -> CTS. 
+Also, don't forget that you should switch pins when connecting to COM port: RX should go to TX, TX to RX, CTS -> RTS and RTS -> CTS. 
 
 Compile, flash, connect to COM port (I used putty with next settings):
 
