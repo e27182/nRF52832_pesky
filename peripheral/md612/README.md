@@ -1,5 +1,7 @@
 # Invensense Motion Driver 6.12 Example
 
+![image](https://cloud.githubusercontent.com/assets/14309815/19645584/1dd07b20-99fe-11e6-9469-7b863ced2444.gif)
+
 It is an adaptation of example from Motion Driver SDK from Invensense.
 It uses COM port to send data to PC, and on PC you should do:
 
@@ -40,5 +42,3 @@ Other commands:
 
 Note that when running python application, it will not react on keypresses when console window in focus.
 You should focus 3D window and then keypresses will work.
-
-![image](https://cloud.githubusercontent.com/assets/14309815/19645584/1dd07b20-99fe-11e6-9469-7b863ced2444.gif)
