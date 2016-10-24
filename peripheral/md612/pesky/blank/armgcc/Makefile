@@ -12,6 +12,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/toolchain/gcc/gcc_startup_nrf52.S \
   $(SDK_ROOT)/components/toolchain/system_nrf52.c \
   $(PROJ_DIR)/main.c \
+  $(PROJ_DIR)/../../common/custom_board.c \
   $(PROJ_DIR)/../../common/timestamping.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \

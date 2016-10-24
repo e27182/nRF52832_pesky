@@ -65,7 +65,7 @@ CFLAGS += -DNRF52_PAN_64
 CFLAGS += -DNRF52_PAN_55
 CFLAGS += -DNRF52_PAN_62
 CFLAGS += -DNRF52_PAN_63
-CFLAGS += -DBOARD_CUSTOM
+CFLAGS += -DBOARD_PCA10040
 CFLAGS += -DNRF52
 CFLAGS += -DNRF52832
 CFLAGS += -DBSP_DEFINES_ONLY
@@ -99,7 +99,7 @@ ASMFLAGS += -DNRF52_PAN_64
 ASMFLAGS += -DNRF52_PAN_55
 ASMFLAGS += -DNRF52_PAN_62
 ASMFLAGS += -DNRF52_PAN_63
-ASMFLAGS += -DBOARD_CUSTOM
+ASMFLAGS += -DBOARD_PCA10040
 ASMFLAGS += -DNRF52
 ASMFLAGS += -DNRF52832
 ASMFLAGS += -DBSP_DEFINES_ONLY
@@ -137,8 +137,6 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	@echo Log: $<.log
-	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
-	@echo 
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
-	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink
+	nrfjprog --program $< -f nrf52 --chiperase
+	nrfjprog --reset -f nrf52
+

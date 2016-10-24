@@ -9,44 +9,6 @@
 // <h> nRF_Drivers 
 
 //==========================================================
-// <e> GPIOTE_ENABLED - nrf_drv_gpiote - GPIOTE peripheral driver
-//==========================================================
-#ifndef GPIOTE_ENABLED
-#define GPIOTE_ENABLED 1
-#endif
-#if  GPIOTE_ENABLED
-// <o> GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS - Number of lower power input pins 
-#ifndef GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS
-#define GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS 4
-#endif
-
-// <o> GPIOTE_CONFIG_IRQ_PRIORITY  - Interrupt priority
- 
-
-// <i> Priorities 0,2 (nRF51) and 0,1,4,5 (nRF52) are reserved for SoftDevice
-// <0=> 0 (highest) 
-// <1=> 1 
-// <2=> 2 
-// <3=> 3 
-// <4=> 4 
-// <5=> 5 
-// <6=> 6 
-// <7=> 7 
-
-#ifndef GPIOTE_CONFIG_IRQ_PRIORITY
-#define GPIOTE_CONFIG_IRQ_PRIORITY 6
-#endif
-
-#endif //GPIOTE_ENABLED
-// </e>
-
-// <q> PERIPHERAL_RESOURCE_SHARING_ENABLED  - nrf_drv_common - Peripheral drivers common module
- 
-
-#ifndef PERIPHERAL_RESOURCE_SHARING_ENABLED
-#define PERIPHERAL_RESOURCE_SHARING_ENABLED 0
-#endif
-
 // <e> CLOCK_ENABLED - nrf_drv_clock - CLOCK peripheral driver
 //==========================================================
 #ifndef CLOCK_ENABLED
@@ -91,6 +53,43 @@
 #endif //CLOCK_ENABLED
 // </e>
 
+// <e> GPIOTE_ENABLED - nrf_drv_gpiote - GPIOTE peripheral driver
+//==========================================================
+#ifndef GPIOTE_ENABLED
+#define GPIOTE_ENABLED 1
+#endif
+#if  GPIOTE_ENABLED
+// <o> GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS - Number of lower power input pins 
+#ifndef GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS
+#define GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS 4
+#endif
+
+// <o> GPIOTE_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+
+// <i> Priorities 0,2 (nRF51) and 0,1,4,5 (nRF52) are reserved for SoftDevice
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef GPIOTE_CONFIG_IRQ_PRIORITY
+#define GPIOTE_CONFIG_IRQ_PRIORITY 6
+#endif
+
+#endif //GPIOTE_ENABLED
+// </e>
+
+// <q> PERIPHERAL_RESOURCE_SHARING_ENABLED  - nrf_drv_common - Peripheral drivers common module
+ 
+
+#ifndef PERIPHERAL_RESOURCE_SHARING_ENABLED
+#define PERIPHERAL_RESOURCE_SHARING_ENABLED 0
+#endif
 
 // <e> RTC_ENABLED - nrf_drv_rtc - RTC peripheral driver
 //==========================================================
@@ -240,13 +239,6 @@
 #endif //TWI_ENABLED
 // </e>
 
-// <q> APP_TWI_ENABLED  - app_twi - TWI transaction manager
- 
-
-#ifndef APP_TWI_ENABLED
-#define APP_TWI_ENABLED 1
-#endif
-
 // <e> UART_ENABLED - nrf_drv_uart - UART/UARTE peripheral driver
 //==========================================================
 #ifndef UART_ENABLED
@@ -341,13 +333,6 @@
 // <h> nRF_Libraries 
 
 //==========================================================
-// <q> APP_FIFO_ENABLED  - app_fifo - Software FIFO implementation
- 
-
-#ifndef APP_FIFO_ENABLED
-#define APP_FIFO_ENABLED 1
-#endif
-
 // <e> APP_TIMER_ENABLED - app_timer - Application timer functionality
 //==========================================================
 #ifndef APP_TIMER_ENABLED
@@ -374,6 +359,13 @@
 #endif //APP_TIMER_ENABLED
 // </e>
 
+// <q> APP_TWI_ENABLED  - app_twi - TWI transaction manager
+ 
+
+#ifndef APP_TWI_ENABLED
+#define APP_TWI_ENABLED 1
+#endif
+
 // <e> APP_UART_ENABLED - app_uart - UART driver
 //==========================================================
 #ifndef APP_UART_ENABLED
@@ -391,11 +383,11 @@
 #endif //APP_UART_ENABLED
 // </e>
 
-// <q> BUTTON_ENABLED  - app_button - buttons handling module
+// <q> APP_FIFO_ENABLED  - app_fifo - Software FIFO implementation
  
 
-#ifndef BUTTON_ENABLED
-#define BUTTON_ENABLED 0
+#ifndef APP_FIFO_ENABLED
+#define APP_FIFO_ENABLED 1
 #endif
 
 // <q> RETARGET_ENABLED  - retarget - Retargeting stdio functions
@@ -403,6 +395,13 @@
 
 #ifndef RETARGET_ENABLED
 #define RETARGET_ENABLED 1
+#endif
+
+// <q> BUTTON_ENABLED  - app_button - buttons handling module
+ 
+
+#ifndef BUTTON_ENABLED
+#define BUTTON_ENABLED 0
 #endif
 
 // </h> 

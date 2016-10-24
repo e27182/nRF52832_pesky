@@ -17,7 +17,7 @@
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_drv_rtc.h"
-#include "bsp.h"
+#include "boards.h"
     
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
@@ -156,17 +156,6 @@ static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 void platform_init()
 {
     uint32_t err_code;
-
-    // *** GPIOTE (disable NFC pins protection)
-    if ((NRF_UICR->NFCPINS & UICR_NFCPINS_PROTECT_Msk) == (UICR_NFCPINS_PROTECT_NFC << UICR_NFCPINS_PROTECT_Pos)){
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_UICR->NFCPINS &= ~UICR_NFCPINS_PROTECT_Msk;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NVIC_SystemReset();
-    }
 
     // *** RTC
     lfclk_config();
@@ -802,6 +791,8 @@ static void gyro_data_ready_cb(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t a
                                   
 int main(void)
 { 
+    remove_nfc_protection();
+
   inv_error_t result;
     unsigned char accel_fsr,  new_temp = 0;
     unsigned short gyro_rate, gyro_fsr;

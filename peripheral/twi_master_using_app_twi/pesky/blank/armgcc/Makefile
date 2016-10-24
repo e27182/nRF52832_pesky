@@ -1,4 +1,4 @@
-PROJECT_NAME     := twi_pesky_blank
+PROJECT_NAME     := twi_master_using_app_twi_pesky
 TARGETS          := nrf52832_xxaa
 OUTPUT_DIRECTORY := _build
 
@@ -6,7 +6,7 @@ SDK_ROOT := ../../../../../..
 PROJ_DIR := ../../..
 
 $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
-  LINKER_SCRIPT  := twi_gcc_nrf52.ld
+  LINKER_SCRIPT  := twi_master_using_app_twi_gcc_nrf52.ld
 # Source files common to all targets
 SRC_FILES += \
   $(SDK_ROOT)/components/libraries/log/src/nrf_log_backend_serial.c \
@@ -36,7 +36,7 @@ SRC_FILES += \
 
 # Include folders common to all targets
 INC_FOLDERS += \
-  $(PROJ_DIR)/config/twi_pesky_blank \
+  $(PROJ_DIR)/config/twi_master_using_app_twi_pesky \
   $(PROJ_DIR)/config \
   $(SDK_ROOT)/components \
   ../config \
@@ -155,8 +155,6 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	@echo Log: $<.log
-	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
-	@echo 
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
-	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink
+	nrfjprog --program $< -f nrf52 --chiperase
+	nrfjprog --reset -f nrf52
+

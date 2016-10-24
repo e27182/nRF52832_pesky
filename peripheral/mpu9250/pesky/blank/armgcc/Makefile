@@ -16,6 +16,7 @@ SRC_FILES += \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/ml_math_func.c \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/mpl.c \
   $(PROJ_DIR)/../../common/timestamping.c \
+  $(PROJ_DIR)/../../common/custom_board.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
@@ -94,6 +95,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/ble/ble_services/ble_ans_c \
   $(PROJ_DIR) \
   $(PROJ_DIR)/../../common \
+  $(SDK_ROOT)/examples/bsp \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/include \
@@ -152,8 +154,10 @@ CFLAGS += -DNRF52_PAN_64
 CFLAGS += -DNRF52_PAN_55
 CFLAGS += -DNRF52_PAN_62
 CFLAGS += -DNRF52_PAN_63
+CFLAGS += -DBOARD_CUSTOM
 CFLAGS += -DNRF52
 CFLAGS += -DNRF52832
+CFLAGS += -DBSP_DEFINES_ONLY
 CFLAGS += -DMPU9250
 CFLAGS += -DEMPL
 CFLAGS += -DUSE_DMP
@@ -190,8 +194,10 @@ ASMFLAGS += -DNRF52_PAN_64
 ASMFLAGS += -DNRF52_PAN_55
 ASMFLAGS += -DNRF52_PAN_62
 ASMFLAGS += -DNRF52_PAN_63
+ASMFLAGS += -DBOARD_CUSTOM
 ASMFLAGS += -DNRF52
 ASMFLAGS += -DNRF52832
+ASMFLAGS += -DBSP_DEFINES_ONLY
 ASMFLAGS += -DMPU9250
 ASMFLAGS += -DEMPL
 ASMFLAGS += -DUSE_DMP

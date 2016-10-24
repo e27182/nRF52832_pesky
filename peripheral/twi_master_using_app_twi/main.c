@@ -19,6 +19,7 @@
  * This file contains the source code for a sample application using TWI.
  */
 
+#include "boards.h"
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_clock.h"
 #include "bsp.h"

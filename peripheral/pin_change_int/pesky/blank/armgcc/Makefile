@@ -11,6 +11,7 @@ $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
 SRC_FILES += \
   $(SDK_ROOT)/components/toolchain/gcc/gcc_startup_nrf52.S \
   $(SDK_ROOT)/components/toolchain/system_nrf52.c \
+  $(PROJ_DIR)/../../common/custom_board.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
@@ -130,8 +131,6 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	@echo Log: $<.log
-	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
-	@echo 
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
-	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink
+	nrfjprog --program $< -f nrf52 --chiperase
+	nrfjprog --reset -f nrf52
+

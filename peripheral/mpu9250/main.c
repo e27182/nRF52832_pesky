@@ -15,6 +15,7 @@
 #include "data_builder.h"
 #include "results_holder.h"
 #include "invensense.h"
+#include "boards.h"
 
 #define QUAT_W 0
 #define QUAT_X 1
@@ -71,16 +72,6 @@ static void twi_config(void)
  */
 static void gpio_config(void)
 {
-    if ((NRF_UICR->NFCPINS & UICR_NFCPINS_PROTECT_Msk) == (UICR_NFCPINS_PROTECT_NFC << UICR_NFCPINS_PROTECT_Pos)){
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_UICR->NFCPINS &= ~UICR_NFCPINS_PROTECT_Msk;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NVIC_SystemReset();
-    }
-
     APP_ERROR_CHECK(nrf_drv_gpiote_init());
 }
 
@@ -260,6 +251,8 @@ static void rtc_config(void)
 
 int main(void)
 {
+    remove_nfc_protection();
+
     // Start internal LFCLK XTAL oscillator - it is needed for "read" ticks generation (by RTC).
     lfclk_config();
     rtc_config();
