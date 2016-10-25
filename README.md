@@ -21,6 +21,8 @@ Repository contains several examples adapted from official nRF5 SDK. Example fol
 - [Interrupts](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/pin_change_int)
 - [TWI](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/twi_master_using_app_twi)
 - [UART](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/uart)
+
+#### Segger RTTT
 - [Segger RTTT](https://github.com/e27182/nRF52832_pesky/tree/master/segger/rtt)
 
 ##What you will need
