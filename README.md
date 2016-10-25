@@ -8,9 +8,16 @@ Here is what you can do with Invensense Motion Driver SDK 6.12:
 Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result. Below you can find setup process based on simplest *blinky* example.
 
 ##List of adapted projects
-- [Blinky (detailed description below)](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/blinky)
+#### BLE
+- [HID Mouse](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse)
+- [BLE UART](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_uart)
+
+#### Invensense Motion Driver
 - [Invensense Motion Driver 6.12 Example](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/md612)
 - [MPU9250](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/mpu9250)
+
+#### Peripherals
+- [Blinky](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/blinky) (detailed description below)
 - [Interrupts](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/pin_change_int)
 - [TWI](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/twi_master_using_app_twi)
 - [UART](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/uart)
@@ -80,6 +87,10 @@ Finally you should see something like that:
 ## Updates
 
 ```
+25.10.2016
+  BLE HID Mouse example added
+  BLE UART example added
+
 24.10.2016
   Extracted common parts of code into separate folders
   Added Readme.md to uart and md6.12 examples
@@ -107,7 +118,6 @@ Finally you should see something like that:
 
 ##TODO
 
-1. Add BLE stack (SoftDevice 132) to all examples
-2. Adapt some simple HID device example
-3. Create BLE HID joystick example with data from mpu9250
-4. Add altimeter data
+1. Adapt some simple HID device example
+2. Create BLE HID joystick example with data from mpu9250
+3. Add altimeter data
