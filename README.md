@@ -13,7 +13,7 @@ Repository contains several examples adapted from official nRF5 SDK. Example fol
 - [BLE UART](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_uart)
 
 #### Invensense Motion Driver
-- [Invensense Motion Driver 6.12 Example](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/md612)
+- [Invensense Motion Driver Example](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/md612)
 - [MPU9250](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/mpu9250)
 
 #### Peripherals
