@@ -26,23 +26,29 @@ extern "C" {
 /* determines which LEDs are lit when GPIO is low */
 #define LEDS_INV_MASK  LEDS_MASK
 
-#define BUTTONS_NUMBER 2
+#define BUTTONS_NUMBER 4
 
 #define BUTTON_START   8
 #define BUTTON_1       8
 #define BUTTON_2       9 // by default protected and used as NFC, so protection should be removed before use. See "pin_change_int" example for details.
-#define BUTTON_STOP    9
+#define BUTTON_3       12 // ARDUINO_0_PIN
+#define BUTTON_4       11 // ARDUINO_1_PIN
+#define BUTTON_STOP    11
 #define BUTTON_PULL    NRF_GPIO_PIN_PULLUP
 
-#define BUTTONS_LIST { BUTTON_1, BUTTON_2 }
+#define BUTTONS_LIST { BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4 }
 
 #define BSP_BUTTON_0   BUTTON_1
 #define BSP_BUTTON_1   BUTTON_2
+#define BSP_BUTTON_2   BUTTON_3
+#define BSP_BUTTON_3   BUTTON_4
 
 #define BSP_BUTTON_0_MASK (1<<BSP_BUTTON_0)
 #define BSP_BUTTON_1_MASK (1<<BSP_BUTTON_1)
+#define BSP_BUTTON_2_MASK (1<<BSP_BUTTON_2)
+#define BSP_BUTTON_3_MASK (1<<BSP_BUTTON_3)
 
-#define BUTTONS_MASK   (BSP_BUTTON_0_MASK | BSP_BUTTON_1_MASK)
+#define BUTTONS_MASK   (BSP_BUTTON_0_MASK | BSP_BUTTON_1_MASK | BSP_BUTTON_2_MASK | BSP_BUTTON_3_MASK)
 
 #define RX_PIN_NUMBER  25
 #define TX_PIN_NUMBER  26
@@ -67,8 +73,8 @@ extern "C" {
 #define ARDUINO_4_PIN               15    // Digital pin 4
 #define ARDUINO_3_PIN               14    // Digital pin 3
 #define ARDUINO_2_PIN               13    // Digital pin 2
-#define ARDUINO_1_PIN               12    // Digital pin 1
-#define ARDUINO_0_PIN               11    // Digital pin 0
+#define ARDUINO_1_PIN               12    // Digital pin 1 / BUTTON_4
+#define ARDUINO_0_PIN               11    // Digital pin 0 / BUTTON_3
 
 #define ARDUINO_A0_PIN              3     // Analog channel 0
 #define ARDUINO_A1_PIN              4     // Analog channel 1

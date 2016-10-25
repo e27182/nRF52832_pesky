@@ -37,3 +37,10 @@
 
 # Build folders
 _build/
+
+# Other
+video/
+peripheral/martinsbl/
+peripheral/nrf5-mpu-data-ready-interrupts/
+peripheral/nrf5-mpu-simple/
+logic-analyser/
