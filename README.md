@@ -5,7 +5,7 @@ Here is what you can do with Invensense Motion Driver SDK 6.12:
 
 ![image](https://cloud.githubusercontent.com/assets/14309815/19645584/1dd07b20-99fe-11e6-9469-7b863ced2444.gif)
 
-Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result. Below you can find setup process based on simplest *blinky* example.
+Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result, also it contains **hex** subfolder with ready to flash hex file. Below you can find setup process based on simplest *blinky* example.
 
 ##List of adapted projects
 #### BLE
@@ -90,6 +90,7 @@ Finally you should see something like that:
 25.10.2016
   BLE HID Mouse example added
   BLE UART example added
+  Hex files added for each example
 
 24.10.2016
   Extracted common parts of code into separate folders
