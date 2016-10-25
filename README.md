@@ -118,6 +118,7 @@ Finally you should see something like that:
 
 ##TODO
 
-1. Adapt some simple HID device example
-2. Create BLE HID joystick example with data from mpu9250
-3. Add altimeter data
+1. Create BLE HID joystick example with data from mpu9250
+2. Add DFU support
+3. Power-tuning
+4. Add altimeter data
