@@ -35,19 +35,17 @@ Repository contains several examples adapted from official nRF5 SDK. Example fol
 PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
 ```
 
-##Features
+##Targets
+
+All standard targets supported, among them:
 
 **make** - compiles code and produces hex and bin files
 
-**make flash** - compiles and flashes hex to board. Also, creates 2 files in _build folder:
+**make clean** - removes folder with compiled stuff
 
-  * flash.jlink - commands for JLink used to flash app hex
-  * nrf52832_xxaa.hex.log - logfile of the flash process
+**make flash** - compiles and flashes hex to board.
 
-**make flash_softdevice** - flashes softdevice hex to board. Available only in s132\armgcc\Makefile. Also, creates 2 files in _build folder:
-
-  * flash_softdevice.jlink - command for JLink used to flash softdevice hex
-  * s132_nrf52_3.0.0_softdevice.hex.log - logfile of the flash process
+**make flash_softdevice** - flashes softdevice hex to board. Available only in s132\armgcc\Makefile.
 
 ##How to use it
 
