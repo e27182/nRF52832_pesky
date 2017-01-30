@@ -1,5 +1,7 @@
 # BLE: HID Mouse + MD 6.12
 
+![image](https://cloud.githubusercontent.com/assets/14309815/22438204/bef53b62-e733-11e6-9408-a8c41516bd13.gif)
+
 Adapted ble_app_hids_mouse example from Nordic Semi SDK + adapted Motion Driver 6.12 from Invensense.
 
 After flashing you should see board as "Nordic_Mouse" with mouse icon on your phone/tablet/PC.
@@ -29,7 +31,3 @@ If you wish to calibrate magnetometer, you should do good '8' figure along with 
 Overall stability with calibrated sensors and is very good, but sometimes I see a freeze for a second. As for now, I'm not sure what is the cause of it.
 
 Part of the code taken from MD612 example is commented out as now we have stack overflow issues, so be careful when extending it.
-
-Please, see video below:
-
-![image](https://cloud.githubusercontent.com/assets/14309815/22438204/bef53b62-e733-11e6-9408-a8c41516bd13.gif)
