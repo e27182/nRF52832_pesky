@@ -22,11 +22,11 @@ Code contains hardcoded calibration parameters adapted to my environment:
     inv_set_compass_bias(bias, 3);
 ```
 
-To get this values I updated MD612 example in this repository, so that when pressing 'b' there it prints all calculated biase values for each sensor.
-Also, this code executes 'self-test' routine to recalibrate accel and gyro on startup.
+To get this values I extended MD612 example from this repository, so that when pressing 'b' - it prints all calculated bias values for each sensor.
+Also 'self-test' routine executes on startup to recalibrate accel and gyro, so, please, align board horizontally on startup to get correct calibration.
 If you wish to calibrate magnetometer, you should do good '8' figure along with rotations on each axis (X, -X, Y, -Y, Z, -Z) and Invensense's implementation will update calibration for magnetometer automagically.
 
-Overall stability with calibrated sensors and is very good, but sometimes I see a freeze for a second. As for now. I'm not sure what is the cause of it.
+Overall stability with calibrated sensors and is very good, but sometimes I see a freeze for a second. As for now, I'm not sure what is the cause of it.
 
 Part of the code taken from MD612 example is commented out as now we have stack overflow issues, so be careful when extending it.
 
