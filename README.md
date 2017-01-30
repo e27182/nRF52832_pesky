@@ -5,10 +5,11 @@ Here is what you can do with Invensense Motion Driver SDK 6.12:
 
 ![image](https://cloud.githubusercontent.com/assets/14309815/19645584/1dd07b20-99fe-11e6-9469-7b863ced2444.gif)
 
-Repository contains several examples adapted from official nRF5 SDK. Example folders can contain readme with additional description and video or screenshot of result, also it contains **hex** subfolder with ready to flash hex file. Below you can find setup process based on simplest *blinky* example.
+Repository contains several examples adapted from official nRF5 SDK along with extended code with Invensense's Motion Driver 6.12. Example folders can contain readme with additional description and video or screenshot of result, also it contains **hex** subfolder with ready to flash hex file. Below you can find setup process based on simplest *blinky* example.
 
 ##List of adapted projects
 #### BLE
+- [HID Mouse with Motion Driver 6.12](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse_md612)
 - [HID Mouse](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse)
 - [BLE UART](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_uart)
 
@@ -87,6 +88,9 @@ Finally you should see something like that:
 ## Updates
 
 ```
+30.01.2017
+  BLE HID Mouse + MD 6.12 example - board as a bluetooth mouse
+  
 25.10.2016
   BLE HID Mouse example added
   BLE UART example added
