@@ -58,7 +58,8 @@
 
 #define PEDO_READ_MS    (1000)
 #define TEMP_READ_MS    (500)
-#define COMPASS_READ_MS (100)
+//#define COMPASS_READ_MS (100)
+#define COMPASS_READ_MS (10)
 struct rx_s {
     unsigned char header[3];
     unsigned char cmd;
@@ -99,14 +100,14 @@ struct platform_data_s {
  * boards at Invensense. If needed, please modify the matrices to match the
  * chip-to-body matrix for your particular set up.
  */
-static struct platform_data_s gyro_pdata = { // TODO: fix
-    .orientation = { -1, 0, 0,
+static struct platform_data_s gyro_pdata = {
+    .orientation = { 1, 0, 0,
                      0, 1, 0,
                      0, 0, 1}
 };
 
 #if defined MPU9150 || defined MPU9250
-static struct platform_data_s compass_pdata = { // TODO: fix
+static struct platform_data_s compass_pdata = {
     .orientation = { 0, 1, 0,
                      1, 0, 0,
                      0, 0,-1}
@@ -408,7 +409,11 @@ static void android_orient_cb(unsigned char orientation)
 
 static inline void nRF52_reset(void)
 {
+    #ifdef SOFTDEVICE_PRESENT
+    sd_nvic_SystemReset();
+    #else
     NVIC_SystemReset();
+    #endif
     while (1) ;
 }
 
@@ -494,21 +499,33 @@ static void handle_input(char c)
     case '8':
         hal.sensors ^= ACCEL_ON;
         setup_gyro();
-        if (!(hal.sensors & ACCEL_ON))
+        if (!(hal.sensors & ACCEL_ON)) {
             inv_accel_was_turned_off();
+            MPL_LOGI("Accel off.\n");
+        } else {
+            MPL_LOGI("Accel on.\n");
+        }
         break;
     case '9':
         hal.sensors ^= GYRO_ON;
         setup_gyro();
-        if (!(hal.sensors & GYRO_ON))
+        if (!(hal.sensors & GYRO_ON)) {
             inv_gyro_was_turned_off();
+            MPL_LOGI("Gyro off.\n");
+        } else {
+            MPL_LOGI("Gyro on.\n");
+        }
         break;
 #ifdef COMPASS_ENABLED
     case '0':
         hal.sensors ^= COMPASS_ON;
         setup_gyro();
-        if (!(hal.sensors & COMPASS_ON)) {MPL_LOGI("Compass off\n");
-            inv_compass_was_turned_off();} else MPL_LOGI("Compass on\n");
+        if (!(hal.sensors & COMPASS_ON)) {
+            inv_compass_was_turned_off();
+            MPL_LOGI("Compass off.\n");
+        } else {
+            MPL_LOGI("Compass on.\n");
+        }
         break;
 #endif
     /* The commands send individual sensor data or fused data to the PC. */
@@ -733,6 +750,8 @@ static void handle_input(char c)
             mpu_set_sample_rate(dmp_rate);
             inv_quaternion_sensor_was_turned_off();
             MPL_LOGI("DMP disabled.\n");
+            mpu_set_accel_fsr(16);
+            mpu_set_gyro_fsr(2000);
         } else {
             unsigned short sample_rate;
             hal.dmp_on = 1;
@@ -766,6 +785,34 @@ static void handle_input(char c)
         } else
             MPL_LOGI("LP quaternion enabled.\n");
         break;
+    case 'b':
+    {
+        long bias[3];
+        long temp;
+        int accuracy;
+        int disturbance;
+        int large_mag_field;
+        int state;
+        
+        MPL_LOGI("Biases:\n");
+
+        inv_get_accel_bias(bias, &temp);
+        accuracy = inv_get_accel_accuracy();
+        MPL_LOGI("accel: %d %d %d, temp: %d, accuracy: %d\n", bias[0], bias[1], bias[2], temp, accuracy);
+
+        inv_get_gyro_bias(bias, &temp);
+        accuracy = inv_get_gyro_accuracy();
+        MPL_LOGI("gyro: %d %d %d, temp: %d, accuracy: %d\n", bias[0], bias[1], bias[2], temp, accuracy);
+
+        inv_get_compass_bias(bias);
+        accuracy = inv_get_mag_accuracy();
+        disturbance = inv_get_compass_disturbance();
+        large_mag_field = inv_get_large_mag_field();
+        state = inv_get_compass_state();
+        MPL_LOGI("compass: %d %d %d, accuracy: %d, disturbance: %d, large mag. field: %d, state: %d\n", bias[0], bias[1], bias[2], accuracy, disturbance, large_mag_field, state);
+
+        break;
+    }
     default:
         break;
     }
@@ -791,8 +838,6 @@ static void gyro_data_ready_cb(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t a
                                   
 int main(void)
 { 
-    remove_nfc_protection();
-
   inv_error_t result;
     unsigned char accel_fsr,  new_temp = 0;
     unsigned short gyro_rate, gyro_fsr;
@@ -834,6 +879,9 @@ int main(void)
     /* Compute 6-axis and 9-axis quaternions. */
     inv_enable_quaternion();
     inv_enable_9x_sensor_fusion();
+    inv_9x_fusion_enable_jitter_reduction(1);
+    inv_9x_fusion_set_mag_fb(1.0);
+
     /* The MPL expects compass data at a constant rate (matching the rate
      * passed to inv_set_compass_sample_rate). If this is an issue for your
      * application, call this function, and the MPL will depend on the
@@ -851,7 +899,7 @@ int main(void)
      */
     inv_enable_fast_nomot();
     /* inv_enable_motion_no_motion(); */
-    /* inv_set_no_motion_time(1000); */
+    /* inv_set_no_motion_time(250); */
 
     /* Update gyro biases when temperature changes. */
     inv_enable_gyro_tc();
@@ -863,6 +911,8 @@ int main(void)
      *
      * inv_enable_in_use_auto_calibration();
      */
+     inv_enable_in_use_auto_calibration();
+     
 #ifdef COMPASS_ENABLED
     /* Compass calibration algorithms. */
     inv_enable_vector_compass_cal();
@@ -912,6 +962,7 @@ int main(void)
 #ifdef COMPASS_ENABLED
     mpu_get_compass_fsr(&compass_fsr);
 #endif
+    MPL_LOGI("FSR = G:%d A:%d C:%d\n", gyro_fsr, accel_fsr, compass_fsr);
     /* Sync driver configuration with MPL. */
     /* Sample rate expected in microseconds. */
     inv_set_gyro_sample_rate(1000000L / gyro_rate);
@@ -1012,6 +1063,20 @@ int main(void)
     inv_set_quat_sample_rate(1000000L / DEFAULT_MPU_HZ);
     mpu_set_dmp_state(1);
     hal.dmp_on = 1;
+
+    long bias[3];
+    bias[0] = 6211584;
+    bias[1] = -2068480;
+    bias[2] = -2611200;
+    inv_set_accel_bias(bias, 3);
+    bias[0] = -748747;
+    bias[1] = 1786825;
+    bias[2] = 1045736;
+    inv_set_gyro_bias(bias, 3);
+    bias[0] = -10261884;
+    bias[1] = 63218332;
+    bias[2] = -29328029;
+    inv_set_compass_bias(bias, 3);
 
     //__enable_interrupt();
     while(1){

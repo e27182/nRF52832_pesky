@@ -89,11 +89,6 @@ extern "C" {
                                  .rc_temp_ctiv  = 0,                                \
                                  .xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
 
-/**
- * @brief Configures Pin 9 and Pin 10 to be used as GPIO, not as NFC.
- */
-void remove_nfc_protection();
-
 #ifdef __cplusplus
 }
 #endif

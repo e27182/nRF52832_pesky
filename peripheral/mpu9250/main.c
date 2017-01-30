@@ -8,6 +8,7 @@
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_gpiote.h"
 #include "app_twi.h"
+#include "app_uart.h"
 #include "app_error.h"
 #include "timestamping.h"
 #include "inv_mpu.h"
@@ -16,6 +17,8 @@
 #include "results_holder.h"
 #include "invensense.h"
 #include "boards.h"
+#include "nrf.h"
+#include "bsp.h"
 
 #define QUAT_W 0
 #define QUAT_X 1
@@ -30,9 +33,13 @@
 #define SCL_PIN 7
 #define MPU_INT_PIN 10
 
+#define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
+#define UART_RX_BUF_SIZE 256                         /**< UART RX buffer size. */
+
 #define MPU_HZ 100
-#define COMPASS_HZ 100
-#define USE_DMP 1
+#define COMPASS_HZ 50
+#define TEMP_HZ 50
+#define USE_DMP 0
 #define GYRO_FSR 250
 #define ACCEL_FSR 2
 //#define PRINT_TIMESTAMP_SENSORS
@@ -102,27 +109,27 @@ static int mpu_config(void)
         return ret;
     }
 
-    if (0 != (ret = mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL)))
+    if (0 != (ret = mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS)))
     {
         NRF_LOG_ERROR("Failed to set fifo: %d\r\n", ret);
         return ret;
     }
 
-    if (0 != (ret = mpu_set_sample_rate(MPU_HZ))) // Sampling rate must be between 4Hz and 1kHz. LPF will be set to 1/2 of smapling rate.
-    {
-        NRF_LOG_ERROR("Failed to set sample rate: %d\r\n", ret);
-        return ret;
-    }
     if (0 != (ret = mpu_set_compass_sample_rate(COMPASS_HZ))) // Sampling rate must be between xxHz and 100Hz.
     {
         NRF_LOG_ERROR("Failed to set compass sample rate: %d\r\n", ret);
         return ret;
     }
-    if (0 != (ret = mpu_set_lpf(10))) // The following Low-Pass Filter settings are supported: 188, 98, 42, 20, 10, 5.
+    if (0 != (ret = mpu_set_sample_rate(MPU_HZ))) // Sampling rate must be between 4Hz and 1kHz. LPF will be set to 1/2 of smapling rate.
     {
-        NRF_LOG_ERROR("Failed to set LPF: %d\r\n", ret);
+        NRF_LOG_ERROR("Failed to set sample rate: %d\r\n", ret);
         return ret;
     }
+    // if (0 != (ret = mpu_set_lpf(10))) // The following Low-Pass Filter settings are supported: 188, 98, 42, 20, 10, 5.
+    // {
+    //     NRF_LOG_ERROR("Failed to set LPF: %d\r\n", ret);
+    //     return ret;
+    // }
 
     if (0 != (ret = mpu_set_gyro_fsr(GYRO_FSR))) // The following Gyro Full-Scale Ranges are supported: 250, 500, 1000, 2000.
     {
@@ -249,10 +256,44 @@ static void rtc_config(void)
     nrf_drv_rtc_enable(&m_rtc);
 }
 
+void uart_error_handle(app_uart_evt_t * p_event)
+{
+    if (p_event->evt_type == APP_UART_COMMUNICATION_ERROR)
+    {
+        APP_ERROR_HANDLER(p_event->data.error_communication);
+    }
+    else if (p_event->evt_type == APP_UART_FIFO_ERROR)
+    {
+        APP_ERROR_HANDLER(p_event->data.error_code);
+    }
+}
+
+static void uart_config()
+{
+    uint32_t err_code;
+    const app_uart_comm_params_t comm_params =
+      {
+          RX_PIN_NUMBER,
+          TX_PIN_NUMBER,
+          RTS_PIN_NUMBER,
+          CTS_PIN_NUMBER,
+          APP_UART_FLOW_CONTROL_DISABLED,
+          false,
+          UART_BAUDRATE_BAUDRATE_Baud115200
+      };
+
+    APP_UART_FIFO_INIT(&comm_params,
+                         UART_RX_BUF_SIZE,
+                         UART_TX_BUF_SIZE,
+                         uart_error_handle,
+                         APP_IRQ_PRIORITY_LOW,
+                         err_code);
+
+    APP_ERROR_CHECK(err_code);
+}
+
 int main(void)
 {
-    remove_nfc_protection();
-
     // Start internal LFCLK XTAL oscillator - it is needed for "read" ticks generation (by RTC).
     lfclk_config();
     rtc_config();
@@ -263,11 +304,18 @@ int main(void)
 
     gpio_config();
     twi_config();
+    uart_config();
     APP_ERROR_CHECK(mpu_config());
 
     run_self_test();
 
     nrf_gpio_range_cfg_output(22, 24);
+
+    unsigned long timestamp;
+    unsigned long now;
+    unsigned long compass_next_read_timestamp = 0;
+    unsigned long temp_next_read_timestamp = 0;
+    printf("1\r\n");
     while (true)
     {
         while (NRF_LOG_PROCESS()) ;
@@ -285,9 +333,33 @@ int main(void)
 
         short gyro[3];
         short accel[3];
-        unsigned long timestamp;
+        short compass[3];
+        long temperature;
+
         unsigned char more;
         int ret;
+
+        now = timestamp_func();
+
+        if (now > compass_next_read_timestamp) {
+            compass_next_read_timestamp = now + 1000 / COMPASS_HZ;
+            
+            if (!mpu_get_compass_reg(compass, &timestamp)) {
+                NRF_LOG_INFO("%d,C,%d,%d,%d\r\n", timestamp, compass[VEC_X], compass[VEC_Y], compass[VEC_Z]);
+            } else {
+                NRF_LOG_ERROR("C: failed to read\r\n")
+            }
+        }
+
+        if (now > temp_next_read_timestamp) {
+            temp_next_read_timestamp = now + 1000 / TEMP_HZ;
+            
+            if (!mpu_get_temperature(&temperature, &timestamp)) {
+                NRF_LOG_INFO("%d,T,%d,%d,%d\r\n", timestamp, temperature, 0, 0);
+            } else {
+                NRF_LOG_ERROR("T: failed to read\r\n")
+            }
+        }
 
         if (USE_DMP == 1)
         {
@@ -317,17 +389,12 @@ int main(void)
                     }
 
                     if (INV_XYZ_GYRO == (sensors & INV_XYZ_GYRO))
-                        NRF_LOG_INFO("G: %d %d %d\r\n", gyro[VEC_X], gyro[VEC_Y], gyro[VEC_Z]);
-
+                        NRF_LOG_INFO("%d,G,%d,%d,%d\r\n", timestamp, gyro[VEC_X], gyro[VEC_Y], gyro[VEC_Z]);
                     if (INV_XYZ_ACCEL == (sensors & INV_XYZ_ACCEL))
-                        NRF_LOG_INFO("A: %d %d %d\r\n", accel[VEC_X], accel[VEC_Y], accel[VEC_Z]);
-
-#ifdef PRINT_TIMESTAMP_SENSORS
-                    NRF_LOG_INFO("T: %d\tS: %d\r\n", timestamp, sensors);
-#endif
+                        NRF_LOG_INFO("%d,A,%d,%d,%d\r\n", timestamp, accel[VEC_X], accel[VEC_Y], accel[VEC_Z]);
                 }
-                // else
-                //     NRF_LOG_ERROR("%d\r\n", ret); // NOTE: frequently called when there is not enough data in fifo yet
+                else
+                    NRF_LOG_ERROR("DMP: failed to read %d\r\n", ret); // NOTE: frequently called when there is not enough data in fifo yet
             }
             while (more > 0);
         }
@@ -339,20 +406,21 @@ int main(void)
             {
                 if (0 == (ret = mpu_read_fifo(gyro, accel, &timestamp, &sensors, &more)))
                 {
-                    NRF_LOG_INFO("G: %d %d %d\r\n", gyro[VEC_X], gyro[VEC_Y], gyro[VEC_Z]);
-                    NRF_LOG_INFO("A: %d %d %d\r\n", accel[VEC_X], accel[VEC_Y], accel[VEC_Z]);
-
-#ifdef PRINT_TIMESTAMP_SENSORS
-                    NRF_LOG_INFO("T: %d\tS: %d\r\n", timestamp, sensors);
-#endif
+                    NRF_LOG_INFO("%d,G,%d,%d,%d\r\n", timestamp, gyro[VEC_X], gyro[VEC_Y], gyro[VEC_Z]);
+                    NRF_LOG_INFO("%d,A,%d,%d,%d\r\n", timestamp, accel[VEC_X], accel[VEC_Y], accel[VEC_Z]);
                 }
-                // else
-                //     NRF_LOG_ERROR("%d\r\n", ret);
+                else
+                    NRF_LOG_ERROR("FIFO: failed to read %d\r\n", ret);
             }
             while (more > 0);
         }
 
         mpu_data_ready = false;
+
+        // NOTE: used for magnetometer calibration with MotionCal:
+        // https://learn.adafruit.com/ahrs-for-adafruits-9-dof-10-dof-breakout/magnetometer-calibration
+        // http://www.pjrc.com/store/prop_shield.html
+        printf("Raw:%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n", gyro[0], gyro[1], gyro[2], accel[0], accel[1], accel[2], compass[0], compass[1], compass[2]);
     }
 }
 

@@ -16,7 +16,9 @@ SRC_FILES += \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/ml_math_func.c \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/mpl.c \
   $(PROJ_DIR)/../../common/timestamping.c \
-  $(PROJ_DIR)/../../common/custom_board.c \
+  $(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
+  $(SDK_ROOT)/components/drivers_nrf/uart/nrf_drv_uart.c \
+  $(SDK_ROOT)/components/libraries/uart/retarget.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
@@ -38,6 +40,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/drivers_nrf/twi_master/nrf_drv_twi.c \
   $(SDK_ROOT)/components/drivers_nrf/rtc/nrf_drv_rtc.c \
   $(SDK_ROOT)/components/drivers_nrf/gpiote/nrf_drv_gpiote.c \
+
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -93,6 +96,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/drivers_nrf/rng \
   $(SDK_ROOT)/components/drivers_nrf/i2s \
   $(SDK_ROOT)/components/ble/ble_services/ble_ans_c \
+  $(SDK_ROOT)/components/libraries/uart \
   $(PROJ_DIR) \
   $(PROJ_DIR)/../../common \
   $(SDK_ROOT)/examples/bsp \
@@ -102,7 +106,6 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/libraries/fifo \
   $(SDK_ROOT)/components/drivers_nrf/gpiote \
   $(SDK_ROOT)/components/drivers_nrf/saadc \
-  $(SDK_ROOT)/components/libraries/uart \
   $(SDK_ROOT)/components/drivers_nrf/nrf_soc_nosd \
   $(SDK_ROOT)/components/toolchain \
   $(SDK_ROOT)/components/ble/ble_services/ble_lbs_c \
@@ -150,6 +153,7 @@ CFLAGS += -DNRF52_PAN_51
 CFLAGS += -DNRF52_PAN_36
 CFLAGS += -DNRF52_PAN_53
 CFLAGS += -DCONFIG_GPIO_AS_PINRESET
+CFLAGS += -DCONFIG_NFCT_PINS_AS_GPIOS
 CFLAGS += -DNRF52_PAN_64
 CFLAGS += -DNRF52_PAN_55
 CFLAGS += -DNRF52_PAN_62
@@ -160,7 +164,7 @@ CFLAGS += -DNRF52832
 CFLAGS += -DBSP_DEFINES_ONLY
 CFLAGS += -DMPU9250
 CFLAGS += -DEMPL
-CFLAGS += -DUSE_DMP
+#CFLAGS += -DUSE_DMP
 CFLAGS += -DDEBUG
 CFLAGS += -DMPU_LOG_RTTT
 CFLAGS += -mcpu=cortex-m4
@@ -190,6 +194,7 @@ ASMFLAGS += -DNRF52_PAN_51
 ASMFLAGS += -DNRF52_PAN_36
 ASMFLAGS += -DNRF52_PAN_53
 ASMFLAGS += -DCONFIG_GPIO_AS_PINRESET
+ASMFLAGS += -DCONFIG_NFCT_PINS_AS_GPIOS
 ASMFLAGS += -DNRF52_PAN_64
 ASMFLAGS += -DNRF52_PAN_55
 ASMFLAGS += -DNRF52_PAN_62
@@ -200,7 +205,7 @@ ASMFLAGS += -DNRF52832
 ASMFLAGS += -DBSP_DEFINES_ONLY
 ASMFLAGS += -DMPU9250
 ASMFLAGS += -DEMPL
-ASMFLAGS += -DUSE_DMP
+#ASMFLAGS += -DUSE_DMP
 ASMFLAGS += -DDEBUG
 ASMFLAGS += -DMPU_LOG_RTTT
 
@@ -236,8 +241,5 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	@echo Log: $<.log
-	@echo Commander script: $(OUTPUT_DIRECTORY)/flash.jlink
-	@echo 
-	@echo -e "log $<.log\ndevice nRF52832_xxAA\nsi 1\nspeed 4000\nr\nh\nloadfile $<\nh\ng\nqc" > $(OUTPUT_DIRECTORY)/flash.jlink
-	JLink -CommanderScript $(OUTPUT_DIRECTORY)/flash.jlink
+	nrfjprog --program $< -f nrf52 --sectorerase
+	nrfjprog --reset -f nrf52

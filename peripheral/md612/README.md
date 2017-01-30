@@ -40,5 +40,8 @@ Other commands:
 - 6 - toggle pedometer display
 - 7 - reset pedometer
 
+Custom commands (not available in original implementation):
+- b - print biases and calibration data
+
 Note that when running python application, it will not react on keypresses when console window in focus.
 You should focus 3D window and then keypresses will work.
