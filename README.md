@@ -105,7 +105,7 @@ Finally you should see something like that:
   Added MotionDriver 6.12 adapted example (preliminary version, but working)
     Known issues:
       - could not use NRF_LOG via UART and at the same time use that UART directly
-      - need to fix orientation
+      - need to fix orientation (fixed 30.01.2017)
       - saving sensor calibration values to flash not implemented (commented)
 
 27.09.2016
@@ -127,3 +127,6 @@ Finally you should see something like that:
 2. Add DFU support
 3. Power-tuning
 4. Add altimeter data
+5. BLE HID head-tracker with example of gaming experience
+6. Update Nordic Semi SDK to newest version
+7. Add buttons to "BLE HID Mouse + MD 6.12 example" (taps along different axes)
