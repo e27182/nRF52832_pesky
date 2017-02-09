@@ -1,6 +1,7 @@
 #ifndef _INV_PESKY_
 #define _INV_PESKY_
 
+#include "string.h"
 #include "timestamping.h"
 #include "nrf_delay.h"
 #include "app_twi.h"

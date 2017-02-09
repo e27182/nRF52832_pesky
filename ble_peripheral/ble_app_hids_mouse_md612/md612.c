@@ -116,6 +116,7 @@ struct hal_s {
     //unsigned char lp_accel_mode;
     unsigned char sensors;
     unsigned char dmp_on;
+    volatile unsigned short tap;
     //unsigned char wait_for_tap;
     volatile unsigned char new_gyro;
     volatile unsigned char new_temp;
@@ -132,7 +133,7 @@ struct hal_s {
     //struct rx_s rx;
 };
 static struct hal_s hal = {0};
-static void (*md612_cb) (unsigned char type, long *data, int8_t *accuracy, unsigned long *timestamp) = NULL;
+static void (*md612_cb) (unsigned char type, long *data, int8_t accuracy, unsigned long timestamp, unsigned short tap) = NULL;
 
 app_twi_t m_app_twi = APP_TWI_INSTANCE(0);
 //static nrf_drv_rtc_t const m_rtc = NRF_DRV_RTC_INSTANCE(0);
@@ -234,11 +235,13 @@ static void read_from_mpl(void)
 
     long data[4];
     if (inv_get_sensor_type_euler(data, &accuracy, (inv_time_t*)&timestamp)) {
-        md612_cb(PACKET_DATA_EULER,  data, &accuracy, &timestamp);
+        md612_cb(PACKET_DATA_EULER,  data, accuracy, timestamp, hal.tap);
+        hal.tap = 0;
     }
 
     // if (inv_get_sensor_type_quat(data, &accuracy, (inv_time_t*)&timestamp)) {
-    //     md612_cb(PACKET_DATA_QUAT, data, &accuracy, &timestamp);
+    //     md612_cb(PACKET_DATA_QUAT, data, accuracy, timestamp, hal.tap);
+    //     hal.tap = 0;
     // }
 
     //NRF_LOG_INFO("[%d] Accuracy: %d\r\n", timestamp, accuracy);
@@ -377,33 +380,36 @@ void send_status_compass() {
 //     }
 // }
 
-// static void tap_cb(unsigned char direction, unsigned char count)
-// {
-//     switch (direction) {
-//     case TAP_X_UP:
-//         MPL_LOGI("Tap X+ ");
-//         break;
-//     case TAP_X_DOWN:
-//         MPL_LOGI("Tap X- ");
-//         break;
-//     case TAP_Y_UP:
-//         MPL_LOGI("Tap Y+ ");
-//         break;
-//     case TAP_Y_DOWN:
-//         MPL_LOGI("Tap Y- ");
-//         break;
-//     case TAP_Z_UP:
-//         MPL_LOGI("Tap Z+ ");
-//         break;
-//     case TAP_Z_DOWN:
-//         MPL_LOGI("Tap Z- ");
-//         break;
-//     default:
-//         return;
-//     }
-//     MPL_LOGI("x%d\n", count);
-//     return;
-// }
+static void tap_cb(unsigned char direction, unsigned char count)
+{
+    hal.tap = (direction << 8) + count;
+
+    switch (direction) {
+    case TAP_X_UP:
+        MPL_LOGI("Tap X+ ");
+        break;
+    case TAP_X_DOWN:
+        hal.tap |= 1 << 1;
+        MPL_LOGI("Tap X- ");
+        break;
+    case TAP_Y_UP:
+        MPL_LOGI("Tap Y+ ");
+        break;
+    case TAP_Y_DOWN:
+        MPL_LOGI("Tap Y- ");
+        break;
+    case TAP_Z_UP:
+        MPL_LOGI("Tap Z+ ");
+        break;
+    case TAP_Z_DOWN:
+        MPL_LOGI("Tap Z- ");
+        break;
+    default:
+        return;
+    }
+    MPL_LOGI("x%d\n", count);
+    return;
+}
 
 // static void android_orient_cb(unsigned char orientation)
 // {
@@ -807,7 +813,7 @@ static void gyro_data_ready_cb(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t a
 }
 /*******************************************************************************/
 
-void md612_configure(void (*cb) (unsigned char type, long *data, int8_t *accuracy, unsigned long *timestamp))
+void md612_configure(void (*cb) (unsigned char type, long *data, int8_t accuracy, unsigned long timestamp, unsigned short tap))
 {
     unsigned short gyro_rate, gyro_fsr;
     unsigned char accel_fsr;
@@ -1012,7 +1018,7 @@ void md612_configure(void (*cb) (unsigned char type, long *data, int8_t *accurac
     }
     dmp_set_orientation(
         inv_orientation_matrix_to_scalar(gyro_pdata.orientation));
-    //dmp_register_tap_cb(tap_cb);
+    dmp_register_tap_cb(tap_cb);
     //dmp_register_android_orient_cb(android_orient_cb);
     /*
      * Known Bug -
@@ -1051,6 +1057,19 @@ void md612_configure(void (*cb) (unsigned char type, long *data, int8_t *accurac
     bias[1] = 63218332;
     bias[2] = -29328029;
     inv_set_compass_bias(bias, 3);
+
+//     dmp_set_tap_thresh(TAP_XYZ, 250);
+//     dmp_set_tap_axes(TAP_XYZ);
+//     dmp_set_tap_count(1);
+//     dmp_set_tap_time(100);
+//     dmp_set_tap_time_multi(500);
+
+// #define DMP_SAMPLE_RATE     (200)
+// #define GYRO_SF             (46850825LL * 200 / DMP_SAMPLE_RATE)
+
+//     dmp_set_shake_reject_thresh(GYRO_SF, 100);
+//     dmp_set_shake_reject_time(40);
+//     dmp_set_shake_reject_timeout(10);
 }
 
 void md612_selftest()

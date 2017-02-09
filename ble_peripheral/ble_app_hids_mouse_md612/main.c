@@ -64,6 +64,7 @@
 #include "timestamping.h"
 #include "mlmath.h"
 #include "ml_math_func.h"
+#include "inv_mpu_dmp_motion_driver.h"
 
 #if BUTTONS_NUMBER < 4
 #error "Not enough resources on board to run example"
@@ -170,7 +171,7 @@ static bool           m_is_wl_changed;                                      /**<
 
 static void on_hids_evt(ble_hids_t * p_hids, ble_hids_evt_t * p_evt);
 
-static long old_data[4];
+static float old_data[4];
 
 /**@brief Callback function for asserts in the SoftDevice.
  *
@@ -1211,7 +1212,7 @@ static void scheduler_init(void)
  * @param[in]   x_delta   Horizontal movement.
  * @param[in]   y_delta   Vertical movement.
  */
-static void mouse_movement_send(int16_t x_delta, int16_t y_delta)
+static void mouse_movement_send(uint8_t buttons, int16_t x_delta, int16_t y_delta)
 {
     uint32_t err_code;
 
@@ -1221,7 +1222,7 @@ static void mouse_movement_send(int16_t x_delta, int16_t y_delta)
         y_delta = MIN(y_delta, 0x00ff);
 
         err_code = ble_hids_boot_mouse_inp_rep_send(&m_hids,
-                                                    0x00,
+                                                    buttons,
                                                     (int8_t)x_delta,
                                                     (int8_t)y_delta,
                                                     0,
@@ -1243,6 +1244,26 @@ static void mouse_movement_send(int16_t x_delta, int16_t y_delta)
         err_code = ble_hids_inp_rep_send(&m_hids,
                                          INPUT_REP_MOVEMENT_INDEX,
                                          INPUT_REP_MOVEMENT_LEN,
+                                         buffer);
+
+        if ((err_code != NRF_SUCCESS) &&
+            (err_code != NRF_ERROR_INVALID_STATE) &&
+            (err_code != BLE_ERROR_NO_TX_PACKETS) &&
+            (err_code != BLE_ERROR_GATTS_SYS_ATTR_MISSING)
+        )
+        {
+            APP_ERROR_HANDLER(err_code);
+        }
+
+        APP_ERROR_CHECK_BOOL(INPUT_REP_BUTTONS_LEN == INPUT_REP_MOVEMENT_LEN);
+
+        buffer[0] = buttons; // Left button (bit 0), Right (bit 1), Middle (bit 2)
+        buffer[1] = 0; // Scroll value (-127, 128)
+        buffer[2] = 0; // Sideways scroll value (-127, 128)
+
+        err_code = ble_hids_inp_rep_send(&m_hids,
+                                         INPUT_REP_BUTTONS_INDEX, 
+                                         INPUT_REP_BUTTONS_LEN, 
                                          buffer);
     }
 
@@ -1294,28 +1315,28 @@ static void bsp_event_handler(bsp_event_t event)
         case BSP_EVENT_KEY_0:
             if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
             {
-                mouse_movement_send(-MOVEMENT_SPEED, 0);
+                mouse_movement_send(0, -MOVEMENT_SPEED, 0);
             }
             break;
 
         case BSP_EVENT_KEY_1:
             if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
             {
-                mouse_movement_send(0, -MOVEMENT_SPEED);
+                mouse_movement_send(0, 0, -MOVEMENT_SPEED);
             }
             break;
 
         case BSP_EVENT_KEY_2:
             if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
             {
-                mouse_movement_send(MOVEMENT_SPEED, 0);
+                mouse_movement_send(0, MOVEMENT_SPEED, 0);
             }
             break;
 
         case BSP_EVENT_KEY_3:
             if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
             {
-                mouse_movement_send(0, MOVEMENT_SPEED);
+                mouse_movement_send(0, 0, MOVEMENT_SPEED);
             }
             break;
 
@@ -1355,40 +1376,56 @@ static void power_manage(void)
     APP_ERROR_CHECK(err_code);
 }
 
-static void md612_callback(unsigned char type, long *data, int8_t *accuracy, unsigned long *timestamp)
+static void md612_callback(unsigned char type, long *data, int8_t accuracy, unsigned long timestamp, unsigned short tap)
 {
+    uint8_t buttons = 0x00;
+
+    if (tap)
+    {
+        unsigned char direction = (tap & 0xFF00) >> 8;
+        //unsigned char count = (tap & 0x00FF) >> 0;
+
+        switch (direction) {
+        case TAP_X_UP:
+        case TAP_X_DOWN:
+            buttons |= 0x04;
+            break;
+        case TAP_Y_UP:
+        case TAP_Y_DOWN:
+            buttons |= 0x02;
+            break;
+        case TAP_Z_UP:
+        case TAP_Z_DOWN:
+            buttons |= 0x01;
+            break;
+        default:
+            return;
+        }
+    }
+
     switch(type)
     {
         case PACKET_DATA_EULER:
         {
-            int16_t delta_x, delta_y;
+            float x = inv_q16_to_float(data[0]);
+            float y = inv_q16_to_float(data[1]);
+            float z = inv_q16_to_float(data[2]);
 
-            float x = inv_q16_to_float(data[1]);
-            float y = inv_q16_to_float(data[0]);
-            //float z = inv_q16_to_float(data[2]);
+            int16_t delta_x = (x - old_data[0]) * 50;
+            int16_t delta_y = (y - old_data[1]) * 50;
 
-            float x_old = inv_q16_to_float(old_data[1]);
-            float y_old = inv_q16_to_float(old_data[0]);
-            //float z_old = inv_q16_to_float(old_data[2]);
+            old_data[0] = x;
+            old_data[1] = y;
+            old_data[2] = z;
 
-            delta_x = (x - x_old) * 50;
-            delta_y = (y - y_old) * 50;
+            if (buttons)
+                NRF_LOG_INFO("[%d] Buttons: %d\r\n", timestamp, buttons);
 
-            // delta_x = (data[0] - old_data[0]) / 1000;
-            // delta_y = (data[1] - old_data[1]) / 1000;
-
-            old_data[0] = data[0];
-            old_data[1] = data[1];
-            old_data[2] = data[2];
-
-            //NRF_LOG_INFO("[%d] Accuracy: %d\r\n", timestamp[0], accuracy[0]);
-            //NRF_LOG_INFO("[%d] Euler: [%d %d %d] Delta: [%d %d]\r\n", timestamp[0], x, y, z, delta_x, delta_y);
-
-            // if ((delta_x != 0 || delta_y != 0) && ble_conn_state_encrypted(m_conn_handle))
-            //     mouse_movement_send(delta_x, delta_y);
+            //NRF_LOG_INFO("[%d] Accuracy: %d\r\n", timestamp, accuracy);
+            //NRF_LOG_INFO("[%d] Euler: [%d %d %d] Delta: [%d %d]\r\n", timestamp, x, y, z, delta_x, delta_y);
 
             if (ble_conn_state_encrypted(m_conn_handle))
-                mouse_movement_send(delta_x, delta_y);
+                mouse_movement_send(buttons, delta_y, delta_x);
         }
         break;
         case PACKET_DATA_QUAT:
@@ -1403,8 +1440,8 @@ static void md612_callback(unsigned char type, long *data, int8_t *accuracy, uns
             old_data[2] = data[2];
             old_data[3] = data[3];
 
-            if ((delta_x != 0 || delta_y != 0) && ble_conn_state_encrypted(m_conn_handle))
-                mouse_movement_send(delta_x, delta_y);
+            if (ble_conn_state_encrypted(m_conn_handle))
+                mouse_movement_send(buttons, delta_x, delta_y);
         }
         break;
         default:
