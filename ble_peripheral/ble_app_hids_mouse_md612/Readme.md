@@ -1,6 +1,10 @@
 # BLE: HID Mouse + MD 6.12
 
+Update 09.02.2017: added support of taps (see 2nd video below)
+
 ![image](https://cloud.githubusercontent.com/assets/14309815/22438204/bef53b62-e733-11e6-9408-a8c41516bd13.gif)
+
+![ble_app_hids_mouse_md612 buttons](https://cloud.githubusercontent.com/assets/14309815/22778568/16032188-eec0-11e6-97be-2b5ea431b305.gif)
 
 Adapted ble_app_hids_mouse example from Nordic Semi SDK + adapted Motion Driver 6.12 from Invensense.
 
