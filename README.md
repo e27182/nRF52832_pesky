@@ -132,7 +132,6 @@ Finally you should see something like that:
 1. Create BLE HID joystick example with data from mpu9250
 2. Add DFU support
 3. Power-tuning
-4. Add altimeter data
+4. Add altimeter data for 10DOF
 5. BLE HID head-tracker with example of gaming experience
 6. Update Nordic Semi SDK to newest version
-7. Add buttons to "BLE HID Mouse + MD 6.12 example" (taps along different axes)
