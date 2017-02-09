@@ -3,7 +3,7 @@ Programming nRF52832 + MPU9250 + BMP280 dev board from https://www.tindie.com/pr
 
 Here is what you can do with Invensense Motion Driver SDK 6.12:
 
-![image](https://cloud.githubusercontent.com/assets/14309815/19645584/1dd07b20-99fe-11e6-9469-7b863ced2444.gif)
+![md612 2](https://cloud.githubusercontent.com/assets/14309815/22778555/0aaaa32e-eec0-11e6-9c70-5df3dec03579.gif)
 
 Repository contains several examples adapted from official nRF5 SDK along with extended code with Invensense's Motion Driver 6.12. Example folders can contain readme with additional description and video or screenshot of result, also it contains **hex** subfolder with ready to flash hex file. Below you can find setup process based on simplest *blinky* example.
 
