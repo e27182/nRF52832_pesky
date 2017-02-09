@@ -17,6 +17,9 @@ Repository contains several examples adapted from official nRF5 SDK along with e
 - [Invensense Motion Driver Example](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/md612)
 - [MPU9250](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/mpu9250)
 
+#### Bosch Sensortec BMP280 Driver
+- [BMP280](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/bmp280)
+
 #### Peripherals
 - [Blinky](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/blinky) (detailed description below)
 - [Interrupts](https://github.com/e27182/nRF52832_pesky/tree/master/peripheral/pin_change_int)
@@ -88,6 +91,9 @@ Finally you should see something like that:
 ## Updates
 
 ```
+09.02.2017
+  Bosch Sensortec BMP280 Driver - peripheral example
+
 30.01.2017
   BLE HID Mouse + MD 6.12 example - board as a bluetooth mouse
   
