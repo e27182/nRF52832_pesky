@@ -74,7 +74,6 @@ static void gpio_init(void)
  */
 int main(void)
 {
-    remove_nfc_protection();
     gpio_init();
 
     while (true)

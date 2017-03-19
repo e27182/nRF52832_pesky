@@ -41,6 +41,9 @@ static inline int i2c_write(unsigned char slave_addr, unsigned char reg_addr, un
     {
         APP_TWI_WRITE(slave_addr, new_data, length + 1, 0)
     };
+    //log_i("w%d %d %d %d\n", slave_addr, reg_addr, length, new_data[1]);
+    //NRF_LOG_HEXDUMP_INFO(new_data, length + 1);
+    //NRF_LOG_PROCESS();
 
     ret_code_t err_code = app_twi_perform(&m_app_twi, transfers, sizeof(transfers) / sizeof(transfers[0]), NULL);
     APP_ERROR_CHECK(err_code);
@@ -60,6 +63,10 @@ static inline int i2c_read(unsigned char slave_addr, unsigned char reg_addr, uns
 
     /*ret_code_t err_code = */app_twi_perform(&m_app_twi, transfers, sizeof(transfers) / sizeof(transfers[0]), NULL);
     //APP_ERROR_CHECK(err_code);
+
+    //log_i("r%d %d %d %d\n", slave_addr, reg_addr, length, data[0]);
+    //NRF_LOG_HEXDUMP_INFO(data, length);
+    //NRF_LOG_PROCESS();
 
     return 0;
 }

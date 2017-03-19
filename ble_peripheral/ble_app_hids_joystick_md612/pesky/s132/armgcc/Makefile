@@ -1,4 +1,4 @@
-PROJECT_NAME     := ble_app_hids_mouse_md612_pesky_s132
+PROJECT_NAME     := ble_app_hids_joystick_md612_pesky_s132
 TARGETS          := nrf52832_xxaa
 OUTPUT_DIRECTORY := _build
 
@@ -6,7 +6,7 @@ SDK_ROOT := ../../../../../..
 PROJ_DIR := ../../..
 
 $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
-  LINKER_SCRIPT  := ble_app_hids_mouse_md612_gcc_nrf52.ld
+  LINKER_SCRIPT  := ble_app_hids_joystick_md612_gcc_nrf52.ld
 # Source files common to all targets
 SRC_FILES += \
   $(SDK_ROOT)/components/libraries/log/src/nrf_log_backend_serial.c \
@@ -78,9 +78,9 @@ SRC_FILES += \
 
 # Include folders common to all targets
 INC_FOLDERS += \
-  $(PROJ_DIR)/config/ble_app_hids_mouse_md612_pesky_s132 \
+  $(PROJ_DIR)/config/ble_app_hids_joystick_md612_pesky_s132 \
   $(PROJ_DIR)/config \
-  $(SDK_ROOT)/examples/ble_peripheral/ble_app_hids_mouse/config \
+  $(SDK_ROOT)/examples/ble_peripheral/ble_app_hids_joystick/config \
   $(SDK_ROOT)/components/drivers_nrf/comp \
   $(SDK_ROOT)/components/drivers_nrf/twi_master \
   $(SDK_ROOT)/components/ble/ble_services/ble_ancs_c \
@@ -100,7 +100,6 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/ble/ble_services/ble_hrs_c \
   $(PROJ_DIR)/../../common \
   $(PROJ_DIR)/../../../examples/bsp \
-  $(PROJ_DIR)/../../external/SysviewSoftdevice \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/include \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/nRF5 \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL \
@@ -180,7 +179,6 @@ INC_FOLDERS += \
 # Libraries common to all targets
 LIB_FILES += \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mpl/liblibmplmpu.a \
-#  $(PROJ_DIR)/../../external/SysviewSoftdevice/SysviewSoftdevice_S132V2.a \
 
 # C flags common to all targets
 CFLAGS += -DNRF52
@@ -210,7 +208,6 @@ CFLAGS += -DNRF52_PAN_63
 CFLAGS += -DMPU9250
 CFLAGS += -DEMPL
 CFLAGS += -DUSE_DMP
-#CFLAGS += -DSYSVIEW_ENABLED
 CFLAGS += -DDEBUG
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs

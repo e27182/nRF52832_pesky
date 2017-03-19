@@ -23,9 +23,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include "sdk_config.h"
 #include "nrf_delay.h"
 
+#if NRF_LOG_BACKEND_SERIAL_USES_UART
 #include "app_uart.h"
+#endif
+
+#if NRF_LOG_BACKEND_SERIAL_USES_RTT
+#include "SEGGER_RTT.h"
+#endif
+
 #include "packet.h"
 #include "log.h"
 #include "bsp.h"
@@ -57,7 +65,7 @@
 int _MLPrintLog (int priority, const char* tag, const char* fmt, ...)
 {
     va_list args;
-    int length, ii, i;
+    int length, ii;
     char buf[BUF_SIZE], out[PACKET_LENGTH], this_length;
 
     /* This can be modified to exit for unsupported priorities. */
@@ -94,12 +102,16 @@ int _MLPrintLog (int priority, const char* tag, const char* fmt, ...)
         this_length = min(length-ii, PACKET_LENGTH-5);
         memset(out+3, 0, 18);
         memcpy(out+3, buf+ii, this_length);
-        for (i=0; i<PACKET_LENGTH; i++) {
+#if NRF_LOG_BACKEND_SERIAL_USES_UART
+        for (int i=0; i<PACKET_LENGTH; i++) {
           //fputc(out[i], NULL);
           printf("%c", out[i]);
         }
+#endif // NRF_LOG_BACKEND_SERIAL_USES_UART
+#if NRF_LOG_BACKEND_SERIAL_USES_RTT
+        SEGGER_RTT_Write(0, out, PACKET_LENGTH);
+#endif // NRF_LOG_BACKEND_SERIAL_USES_RTT
     }
-    
             
     va_end(args);
 
@@ -109,7 +121,6 @@ int _MLPrintLog (int priority, const char* tag, const char* fmt, ...)
 void eMPL_send_quat(long *quat)
 {
     char out[PACKET_LENGTH];
-    int i;
     if (!quat)
         return;
     memset(out, 0, PACKET_LENGTH);
@@ -134,16 +145,20 @@ void eMPL_send_quat(long *quat)
     out[21] = '\r';
     out[22] = '\n';
     
-    for (i=0; i<PACKET_LENGTH; i++) {
-      //fputc(out[i], NULL);
-      printf("%c", out[i]);
+#if NRF_LOG_BACKEND_SERIAL_USES_UART
+    for (int i=0; i<PACKET_LENGTH; i++) {
+        //fputc(out[i], NULL);
+        printf("%c", out[i]);
     }
+#endif
+#if NRF_LOG_BACKEND_SERIAL_USES_RTT
+    SEGGER_RTT_Write(0, out, PACKET_LENGTH);
+#endif
 }
 
 void eMPL_send_data(unsigned char type, long *data)
 {
     char out[PACKET_LENGTH];
-    int i;
     if (!data)
         return;
     memset(out, 0, PACKET_LENGTH);
@@ -208,10 +223,16 @@ void eMPL_send_data(unsigned char type, long *data)
     default:
         return;
     }
-    for (i=0; i<PACKET_LENGTH; i++) {
-      //fputc(out[i], NULL);
-      printf("%c", out[i]);
+
+#if NRF_LOG_BACKEND_SERIAL_USES_UART
+    for (int i=0; i<PACKET_LENGTH; i++) {
+        //fputc(out[i], NULL);
+        printf("%c", out[i]);
     }
+#endif
+#if NRF_LOG_BACKEND_SERIAL_USES_RTT
+    SEGGER_RTT_Write(0, out, PACKET_LENGTH);
+#endif
 }
 
 /**
