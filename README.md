@@ -134,9 +134,9 @@ Finally you should see something like that:
 
 ## TODO
 
-1. Add DFU support
-2. Power-tuning - now I see max 15mA
-3. Add altimeter data for 10DOF
-4. BLE HID head-tracker with example of gaming experience
-5. Update Nordic Semi SDK to newest version
-6. Fix issue with Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
+1. Fix issue with Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
+2. BLE HID head-tracker with example of gaming experience
+3. Update Nordic Semi SDK to newest version
+4. Power-tuning - now I see max 15mA, but, may be, we can do even better?
+5. Add DFU support - could be hard due to limited RAM
+6. Add altimeter data for 10DOF - could be hard due to limited RAM
