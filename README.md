@@ -134,9 +134,11 @@ Finally you should see something like that:
 
 ## TODO
 
-1. Fix issue with Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
-2. BLE HID head-tracker with example of gaming experience
-3. Update Nordic Semi SDK to newest version
-4. Power-tuning - now I see max 15mA, but, may be, we can do even better?
-5. Add DFU support - could be hard due to limited RAM
-6. Add altimeter data for 10DOF - could be hard due to limited RAM
+1. Update Nordic Semi SDK to newest version
+2. Power-tuning - now I see max 15mA, but, may be, we can do even better?
+3. Add DFU support - could be hard due to limited RAM
+4. Add altimeter data for 10DOF - could be hard due to limited RAM
+
+## KNOWN ISSUES
+1. Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
+> Just add 3.1cm antenna to your board, it should solve the issue.
