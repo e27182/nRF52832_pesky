@@ -9,7 +9,7 @@ Repository contains several examples adapted from official nRF5 SDK along with e
 
 ## List of adapted projects
 #### BLE
-- [HID Joystick](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_joystick_md612)
+- [HID Joystick with Motion Driver 6.12](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_joystick_md612)
 - [HID Mouse with Motion Driver 6.12](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse_md612)
 - [HID Mouse](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse)
 - [BLE UART](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_uart)
