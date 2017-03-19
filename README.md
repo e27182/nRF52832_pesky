@@ -135,7 +135,7 @@ Finally you should see something like that:
 ## TODO
 
 1. Add DFU support
-2. Power-tuning
+2. Power-tuning - now I see max 15mA
 3. Add altimeter data for 10DOF
 4. BLE HID head-tracker with example of gaming experience
 5. Update Nordic Semi SDK to newest version
