@@ -91,6 +91,11 @@ Finally you should see something like that:
 ## Updates
 
 ```
+19.03.2017
+  BLE HID Joystick example added (beta)
+  Refactored logging to support UART or RTT, configured with defines in Makefile
+  Fixed issue: when board disconnected from J-Link\UART it wont start - added small sleep after TWI initialization
+
 09.02.2017
   Bosch Sensortec BMP280 Driver - peripheral example
 
@@ -129,9 +134,9 @@ Finally you should see something like that:
 
 ##TODO
 
-1. Create BLE HID joystick example with data from mpu9250
-2. Add DFU support
-3. Power-tuning
-4. Add altimeter data for 10DOF
-5. BLE HID head-tracker with example of gaming experience
-6. Update Nordic Semi SDK to newest version
+1. Add DFU support
+2. Power-tuning
+3. Add altimeter data for 10DOF
+4. BLE HID head-tracker with example of gaming experience
+5. Update Nordic Semi SDK to newest version
+6. Fix issue with Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc

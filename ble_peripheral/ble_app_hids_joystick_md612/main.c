@@ -156,7 +156,7 @@
 
 #define AXIS_SCALE                      32767.f / 180.f
 
-static ble_hid1s_t m_hids;                                                                         /**< Structure used to identify the HID service. */
+static ble_hids_t m_hids;                                                                         /**< Structure used to identify the HID service. */
 static ble_bas_t  m_bas;                                                                          /**< Structure used to identify the battery service. */
 static volatile uint16_t   m_conn_handle  = BLE_CONN_HANDLE_INVALID;                                       /**< Handle of the current connection. */
 

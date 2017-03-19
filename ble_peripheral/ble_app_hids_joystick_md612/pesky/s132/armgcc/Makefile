@@ -63,7 +63,7 @@ SRC_FILES += \
   $(SDK_ROOT)/external/segger_rtt/RTT_Syscalls_GCC.c \
   $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c \
   $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
-  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/nRF5/log_nRF5_NRF.c \
+  $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/nRF5/log_nRF5.c \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu.c \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/driver/eMPL/inv_mpu_dmp_motion_driver.c \
   $(PROJ_DIR)/../../external/motion_driver_6.12/core/mllite/mpl.c \
@@ -209,6 +209,7 @@ CFLAGS += -DMPU9250
 CFLAGS += -DEMPL
 CFLAGS += -DUSE_DMP
 CFLAGS += -DDEBUG
+CFLAGS += -DNRF_LOG_BACKEND_SERIAL_USES_RTT
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS +=  -Wall -O3 -g3
@@ -253,6 +254,7 @@ ASMFLAGS += -DMPU9250
 ASMFLAGS += -DEMPL
 ASMFLAGS += -DUSE_DMP
 ASMFLAGS += -DDEBUG
+ASMFLAGS += -DNRF_LOG_BACKEND_SERIAL_USES_RTT
 ASMFLAGS += -D__HEAP_SIZE=8 -D__STACK_SIZE=16376
 
 # Linker flags
