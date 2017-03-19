@@ -7,7 +7,7 @@ Here is what you can do with Invensense Motion Driver SDK 6.12:
 
 Repository contains several examples adapted from official nRF5 SDK along with extended code with Invensense's Motion Driver 6.12. Example folders can contain readme with additional description and video or screenshot of result, also it contains **hex** subfolder with ready to flash hex file. Below you can find setup process based on simplest *blinky* example.
 
-##List of adapted projects
+## List of adapted projects
 #### BLE
 - [HID Mouse with Motion Driver 6.12](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse_md612)
 - [HID Mouse](https://github.com/e27182/nRF52832_pesky/tree/master/ble_peripheral/ble_app_hids_mouse)
@@ -29,7 +29,7 @@ Repository contains several examples adapted from official nRF5 SDK along with e
 #### Segger RTTT
 - [Segger RTTT](https://github.com/e27182/nRF52832_pesky/tree/master/segger/rtt)
 
-##What you will need
+## What you will need
 
 1. nRF5 SDK - https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK (all code adapted for SDK 12.0.0)
 2. ARM GCC Toolchain - https://devzone.nordicsemi.com/tutorials/7/ (I do not use Eclipse yet, just plain GCC, so you could skip part about Eclipse configuration. Also, please, read "How to use it" section before following the tutorial as you need to clone this repo to empty folder, before unpacking SDK there)
@@ -41,7 +41,7 @@ Repository contains several examples adapted from official nRF5 SDK along with e
 PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
 ```
 
-##Targets
+## Targets
 
 All standard targets supported, among them:
 
@@ -53,7 +53,7 @@ All standard targets supported, among them:
 
 **make flash_softdevice** - flashes softdevice hex to board. Available only in s132\armgcc\Makefile.
 
-##How to use it
+## How to use it
 
 *Please review Makefile before executing any command and make sure that you understand what you are doing.*
 
@@ -132,7 +132,7 @@ Finally you should see something like that:
   Added SEGGER RTT example
 ```
 
-##TODO
+## TODO
 
 1. Add DFU support
 2. Power-tuning
