@@ -105,8 +105,8 @@
 #define BATTERY_LEVEL_INCREMENT         1                                          /**< Increment between each simulated battery level measurement. */
 
 #define PNP_ID_VENDOR_ID_SOURCE         0x02                                       /**< Vendor ID Source. */
-#define PNP_ID_VENDOR_ID                0x1915                                     /**< Vendor ID. */
-#define PNP_ID_PRODUCT_ID               0xEEEE                                     /**< Product ID. */
+#define PNP_ID_VENDOR_ID                0x16c0                                     /**< Vendor ID. */
+#define PNP_ID_PRODUCT_ID               0x27d9                                     /**< Product ID. */
 #define PNP_ID_PRODUCT_VERSION          0x0001                                     /**< Product Version. */
 
 /*lint -emacro(524, MIN_CONN_INTERVAL) // Loss of precision */
@@ -130,7 +130,8 @@
 
 #define INPUT_REPORT_COUNT              2                                           /**< Number of input reports in this application. */
 #define INPUT_REP_BUTTONS_LEN           1                                           /**< Length of Mouse Input Report containing button data. */
-#define INPUT_REP_MOVEMENT_LEN          6                                           /**< Length of Mouse Input Report containing movement data. */
+//#define INPUT_REP_MOVEMENT_LEN          4 // 10-bit report                          /**< Length of Mouse Input Report containing movement data. */
+#define INPUT_REP_MOVEMENT_LEN          6 // 16-bit report                          /**< Length of Mouse Input Report containing movement data. */
 
 #define INPUT_REP_BUTTONS_INDEX         0                                           /**< Index of Mouse Input Report containing button data. */
 #define INPUT_REP_MOVEMENT_INDEX        1                                           /**< Index of Mouse Input Report containing movement data. */
@@ -154,7 +155,8 @@
 #define APP_ADV_FAST_TIMEOUT            30                                                        /**< The duration of the fast advertising period (in seconds). */
 #define APP_ADV_SLOW_TIMEOUT            180                                                       /**< The duration of the slow advertising period (in seconds). */
 
-#define AXIS_SCALE                      32767.f / 180.f
+//#define AXIS_SCALE                      1023.f / 360.f      // 10-bit report
+#define AXIS_SCALE                      65535.f / 360.f     // 16-bit report
 
 static ble_hids_t m_hids;                                                                         /**< Structure used to identify the HID service. */
 static ble_bas_t  m_bas;                                                                          /**< Structure used to identify the battery service. */
@@ -569,9 +571,9 @@ static void hids_init(void)
         0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
         0x09, 0x04,                    // USAGE (Joystick)
         0xa1, 0x01,                    // COLLECTION (Application)
-        0x85, 0x01,                    //   REPORT_ID (1)
         0x09, 0x01,                    //   USAGE (Pointer)
         0xa1, 0x00,                    //   COLLECTION (Physical)
+        0x85, 0x01,                    //     REPORT_ID (1)
         0x75, 0x01,                    //     REPORT_SIZE (1)
         0x95, 0x06,                    //     REPORT_COUNT (6)
         0x05, 0x09,                    //     USAGE_PAGE (Button)
@@ -580,22 +582,22 @@ static void hids_init(void)
         0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
         0x25, 0x01,                    //     LOGICAL_MAXIMUM (1)
         0x81, 0x02,                    //     INPUT (Data,Var,Abs)
-        0x95, 0x01,                    //     REPORT_COUNT (1)
         0x75, 0x02,                    //     REPORT_SIZE (2)
+        0x95, 0x01,                    //     REPORT_COUNT (1)
         0x81, 0x01,                    //     INPUT (Cnst,Ary,Abs)
         0xc0,                          //   END_COLLECTION
-        0x85, 0x02,                    //   REPORT_ID (2)
         0x05, 0x01,                    //   USAGE_PAGE (Generic Desktop)
         0x09, 0x01,                    //   USAGE (Pointer)
         0xa1, 0x00,                    //   COLLECTION (Physical)
+        0x85, 0x02,                    //     REPORT_ID (2)
         0x75, 0x10,                    //     REPORT_SIZE (16)
         0x95, 0x03,                    //     REPORT_COUNT (3)
         0x09, 0x30,                    //     USAGE (X)
         0x09, 0x31,                    //     USAGE (Y)
         0x09, 0x32,                    //     USAGE (Z)
-        0x16, 0x01, 0x80,              //     LOGICAL_MINIMUM (-32767)
-        0x26, 0xff, 0x7f,              //     LOGICAL_MAXIMUM (32767)
-        0x81, 0x82,                    //     INPUT (Data,Var,Abs,Vol)
+        0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
+        0x27, 0xff, 0xff, 0x00, 0x00,  //     LOGICAL_MAXIMUM (65535)
+        0x81, 0x02,                    //     INPUT (Data,Var,Abs)
         0xc0,                          //   END_COLLECTION
         0xc0                           // END_COLLECTION
     };
@@ -1156,19 +1158,28 @@ static void scheduler_init(void)
  * @param[in]   y   Y-axis rotation.
  * @param[in]   z   Z-axis rotation.
  */
-static void joystick_movement_send(uint8_t buttons, int16_t x, int16_t y, int16_t z)
+static void joystick_movement_send(uint8_t buttons, uint16_t x, uint16_t y, uint16_t z)
 {
     uint32_t err_code;
     uint8_t buffer[INPUT_REP_MOVEMENT_LEN];
 
+    // 16-bit report
     APP_ERROR_CHECK_BOOL(INPUT_REP_MOVEMENT_LEN == 6);
+    buffer[0] =  (x & 0x00ff) >> 0;
+    buffer[1] =  (x & 0xff00) >> 8;
+    buffer[2] =  (y & 0x00ff) >> 0;
+    buffer[3] =  (y & 0xff00) >> 8;
+    buffer[4] =  (z & 0x00ff) >> 0;
+    buffer[5] =  (z & 0xff00) >> 8;
 
-    buffer[0] = (x & 0x00ff) >> 0;
-    buffer[1] = (x & 0xff00) >> 8;
-    buffer[2] = (y & 0x00ff) >> 0;
-    buffer[3] = (y & 0xff00) >> 8;
-    buffer[4] = (z & 0x00ff) >> 0;
-    buffer[5] = (z & 0xff00) >> 8;
+    // 10-bit report
+    // APP_ERROR_CHECK_BOOL(INPUT_REP_MOVEMENT_LEN == 4);
+    // buffer[0] =  (x & 0x00ff) >> 0;
+    // buffer[1] =  (x & 0x0300) >> 8;
+    // buffer[1] += (y & 0x003f) << 2;
+    // buffer[2] =  (y & 0x03c0) >> 6;
+    // buffer[2] += (z & 0x000f) << 4;
+    // buffer[3] =  (z & 0x03f0) >> 4;
 
     err_code = ble_hids_inp_rep_send(&m_hids,
                                         INPUT_REP_MOVEMENT_INDEX,
@@ -1311,13 +1322,13 @@ static void motiondriver_callback(unsigned char type, long *data, int8_t accurac
     {
         case PACKET_DATA_EULER:
         {
-            float x = inv_q16_to_float(data[0]);
-            float y = inv_q16_to_float(data[1]);
-            float z = inv_q16_to_float(data[2]);
+            float x = inv_q16_to_float(data[0]) + 180.0;
+            float y = inv_q16_to_float(data[1]) + 180.0;
+            float z = inv_q16_to_float(data[2]) + 180.0;
 
-            int16_t x1 = roundf(x * AXIS_SCALE);
-            int16_t y1 = roundf(y * AXIS_SCALE);
-            int16_t z1 = roundf(z * AXIS_SCALE);
+            uint16_t x1 = roundf(x * AXIS_SCALE);
+            uint16_t y1 = roundf(y * AXIS_SCALE);
+            uint16_t z1 = roundf(z * AXIS_SCALE);
 
             if (buttons)
                 NRF_LOG_INFO("Buttons: %d\r\n", buttons);
