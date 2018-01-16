@@ -92,6 +92,11 @@ Finally you should see something like that:
 ## Updates
 
 ```
+16.01.2018
+  Update readme we new goals
+  Started updating SDK to newer version
+  Investigating moving from modified eMD6.12 to driver provided with [Thingy 52](https://www.nordicsemi.com/eng/Products/Nordic-Thingy-52)
+  
 19.03.2017
   BLE HID Joystick example added (beta)
   Refactored logging to support UART or RTT, configured with defines in Makefile
@@ -136,9 +141,10 @@ Finally you should see something like that:
 ## TODO
 
 1. Update Nordic Semi SDK to newest version
-2. Power-tuning - now I see max 15mA, but, may be, we can do even better?
-3. Add DFU support - could be hard due to limited RAM
-4. Add altimeter data for 10DOF - could be hard due to limited RAM
+2. Investigate updating eMD6.12 to eMD provided by NordicSemi with Thingy 52
+3. Power-tuning - now I see max 15mA, but, may be, we can do even better?
+4. Add DFU support - could be hard due to limited RAM
+5. Add altimeter data for 10DOF - could be hard due to limited RAM
 
 ## KNOWN ISSUES
 1. Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
