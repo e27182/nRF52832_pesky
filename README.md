@@ -39,7 +39,7 @@ Repository contains several examples adapted from official nRF5 SDK along with e
   * .bash_profile - you should add JLink and GCC to your PATH, like below
 
 ```
-PATH="/f/Projects/ARM/gcc-arm-none-eabi-7-2017-q4-major-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
+PATH="/f/Projects/ARM/gcc-arm-none-eabi-7-2017-q4-major-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V622f:${PATH}"
 ```
 
 ## Targets
@@ -147,5 +147,5 @@ Finally you should see something like that:
 5. Add altimeter data for 10DOF - could be hard due to limited RAM
 
 ## KNOWN ISSUES
-1. Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnected, lags, etc
+1. Windows 10\Edimax BT adapter - both mouse and joystick are unstable, quickly disconnects, lags, etc
 > Just add 3.1cm antenna to your board, it should solve the issue.
