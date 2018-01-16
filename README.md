@@ -39,7 +39,7 @@ Repository contains several examples adapted from official nRF5 SDK along with e
   * .bash_profile - you should add JLink and GCC to your PATH, like below
 
 ```
-PATH="/f/Projects/ARM/gcc-arm-none-eabi-5_4-2016q2-20160622-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
+PATH="/f/Projects/ARM/gcc-arm-none-eabi-7-2017-q4-major-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V600g:${PATH}"
 ```
 
 ## Targets
@@ -93,9 +93,9 @@ Finally you should see something like that:
 
 ```
 16.01.2018
-  Update readme we new goals
+  Update readme with new goals
   Started updating SDK to newer version
-  Investigating moving from modified eMD6.12 to driver provided with [Thingy 52](https://www.nordicsemi.com/eng/Products/Nordic-Thingy-52)
+  Investigating moving from modified eMD6.12 to driver provided with Thingy 52
   
 19.03.2017
   BLE HID Joystick example added (beta)
@@ -141,7 +141,7 @@ Finally you should see something like that:
 ## TODO
 
 1. Update Nordic Semi SDK to newest version
-2. Investigate updating eMD6.12 to eMD provided by NordicSemi with Thingy 52
+2. Investigate updating eMD6.12 to eMD provided by NordicSemi with [Thingy 52](https://www.nordicsemi.com/eng/Products/Nordic-Thingy-52)
 3. Power-tuning - now I see max 15mA, but, may be, we can do even better?
 4. Add DFU support - could be hard due to limited RAM
 5. Add altimeter data for 10DOF - could be hard due to limited RAM
