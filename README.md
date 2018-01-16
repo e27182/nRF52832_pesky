@@ -32,14 +32,15 @@ Repository contains several examples adapted from official nRF5 SDK along with e
 
 ## What you will need
 
-1. nRF5 SDK - https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK (all code adapted for SDK 12.0.0)
-2. ARM GCC Toolchain - https://devzone.nordicsemi.com/tutorials/7/ (I do not use Eclipse yet, just plain GCC, so you could skip part about Eclipse configuration. Also, please, read "How to use it" section before following the tutorial as you need to clone this repo to empty folder, before unpacking SDK there)
-3. JLink from SEGGER - I'm using EDU version and have no plans to make it to production
-4. MSYS2 - https://msys2.github.io/ (I use Windows as development environment)
-  * .bash_profile - you should add JLink and GCC to your PATH, like below
+1. [nRF5 SDK](https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF5-SDK) - (all code adapted for SDK 12.0.0)
+2. [ARM GCC Toolchain](https://devzone.nordicsemi.com/tutorials/7/) - (I do not use Eclipse yet, just plain GCC, so you could skip part about Eclipse configuration. Also, please, read "How to use it" section before following the tutorial as you need to clone this repo to empty folder, before unpacking SDK there)
+3. JLink from SEGGER (software + device) - I'm using EDU version and have no plans to make it to production
+4. [Command Line Tools from nRF](https://www.nordicsemi.com/eng/nordic/Products/nRF52832/nRF5x-Command-Line-Tools-Win32/48768) - already contains JLink software, so could skip 3. Or if you already installed latest JLink software - you can safely skip it during installation.
+4. [MSYS2](https://msys2.github.io/) - (I use Windows as development environment)
+  * .bash_profile - you should add JLink, GCC and Command Line Tools to your PATH, like below
 
 ```
-PATH="/f/Projects/ARM/gcc-arm-none-eabi-7-2017-q4-major-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V622f:${PATH}"
+PATH="/f/Projects/ARM/gcc-arm-none-eabi-7-2017-q4-major-win32/bin:/c/Program Files (x86)/SEGGER/JLink_V622f:/c/Program Files (x86)/Nordic Semiconductor/nrf5x/bin:${PATH}"
 ```
 
 ## Targets
